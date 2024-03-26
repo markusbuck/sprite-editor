@@ -18,6 +18,8 @@ private:
     int currentFrame;
     QPen pen;
 
+    void displayCurrentFrame();
+
 public:
     explicit SpriteEditor(QObject *parent = nullptr);
 
@@ -33,11 +35,10 @@ public slots:
     void setCurrentColor(int r, int g, int b, int a);
     void addFrame();
     void deleteFrame();
-    void onNewProject(int height, int width, QString name);
-
+    void onNewProject(int width, int height, QString name);
 signals:
 
-    void updateFrame(QImage* frame);
+    void displayFrame(QImage* frame);
 
 };
 

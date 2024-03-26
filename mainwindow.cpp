@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QDebug>
 
 MainWindow::MainWindow(SpriteEditor& editor, QWidget *parent)
     : QMainWindow(parent)
@@ -13,8 +14,13 @@ MainWindow::MainWindow(SpriteEditor& editor, QWidget *parent)
     background.fill(qRgba(255, 255, 255, 255));
     ui->MainEditorFrame->setPixmap(QPixmap::fromImage(background));
 
-    // connect(&startdialog, QDialog::accept, &editor, [&editor]()
-    //         {editor.onNewProject(startdialog.height.value(), startdialog.width.value(), startdialog.projectName.value());});
+    connect(&startdialog, &StartDialog::onProjectAccepted, &editor, &SpriteEditor::onNewProject);
+    connect(&editor, &SpriteEditor::displayFrame, this, &MainWindow::onDisplayCurrentFrame);
+    connect(ui->AddFrameButton, &QPushButton::clicked, &editor, &SpriteEditor::addFrame );
+}
+
+void MainWindow::onDisplayCurrentFrame(QImage *frame) {
+    ui->MainEditorFrame->setPixmap(QPixmap::fromImage(*frame));
 }
 
 MainWindow::~MainWindow()

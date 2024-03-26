@@ -19,6 +19,9 @@ public:
     MainWindow(SpriteEditor& editor, QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+    void onDisplayCurrentFrame(QImage* frame);
+
 private:
     Ui::MainWindow *ui;
     QImage background;
