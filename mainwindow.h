@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "startdialog.h"
+#include "spriteEditor.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -14,10 +16,12 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(SpriteEditor editor, QWidget *parent = nullptr);
     ~MainWindow();
 
 private:
     Ui::MainWindow *ui;
+    QImage background;
+    StartDialog startdialog;
 };
 #endif // MAINWINDOW_H

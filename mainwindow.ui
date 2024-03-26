@@ -40,7 +40,7 @@
      <string>...</string>
     </property>
    </widget>
-   <widget class="EditorFrame" name="MainEditorFrame">
+   <widget class="QLabel" name="MainEditorFrame">
     <property name="geometry">
      <rect>
       <x>160</x>
@@ -159,13 +159,6 @@
    </property>
   </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>EditorFrame</class>
-   <extends>QLabel</extends>
-   <header>editorframe.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
