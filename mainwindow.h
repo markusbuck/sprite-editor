@@ -16,7 +16,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(SpriteEditor editor, QWidget *parent = nullptr);
+    MainWindow(SpriteEditor& editor, QWidget *parent = nullptr);
     ~MainWindow();
 
 private:

@@ -1,6 +1,6 @@
 #include "spriteEditor.h"
 
-SpriteEditor::SpriteEditor() {}
+SpriteEditor::SpriteEditor(QObject *parent) {}
 
 QImage SpriteEditor::generateOnionSkin(int frame){
 

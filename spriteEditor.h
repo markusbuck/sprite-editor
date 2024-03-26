@@ -1,13 +1,14 @@
 #ifndef SPRITEEDITOR_H
 #define SPRITEEDITOR_H
 
+#include <QObject>
 #include <QImage>
 #include <QColor>
 #include <QPen>
 #include <QVector>
 #include <QJsonObject>
 
-class SpriteEditor{
+class SpriteEditor : public QObject {
 
     Q_OBJECT
 
@@ -18,6 +19,8 @@ private:
     QPen pen;
 
 public:
+    explicit SpriteEditor(QObject *parent = nullptr);
+
     int width;
     int height;
     QString name;

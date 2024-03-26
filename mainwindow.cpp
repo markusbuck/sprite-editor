@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(SpriteEditor editor, QWidget *parent)
+MainWindow::MainWindow(SpriteEditor& editor, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow),
     background(800, 800, QImage::Format_ARGB32)
