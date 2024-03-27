@@ -16,12 +16,20 @@ MainWindow::MainWindow(SpriteEditor& editor, QWidget *parent)
 
     connect(&startdialog, &StartDialog::onProjectAccepted, &editor, &SpriteEditor::onNewProject);
     connect(&editor, &SpriteEditor::displayFrame, this, &MainWindow::onDisplayCurrentFrame);
-    connect(ui->AddFrameButton, &QPushButton::clicked, &editor, &SpriteEditor::addFrame );
+    connect(ui->AddFrameButton, &QPushButton::clicked, &editor, &SpriteEditor::addFrame);
+    connect(ui->frameAdjustor, &QSpinBox::valueChanged, &editor, &SpriteEditor::adjustFrame);
+    connect(&editor, &SpriteEditor::updateFrameBox, ui->frameAdjustor,&QSpinBox::setValue);
+    connect(&editor, &SpriteEditor::updateFrameBox, this, &MainWindow::updateMaxFrames);
 }
 
 void MainWindow::onDisplayCurrentFrame(QImage *frame) {
     ui->MainEditorFrame->setPixmap(QPixmap::fromImage(*frame));
 }
+
+void MainWindow::updateMaxFrames(int max){
+    ui->frameAdjustor->setMaximum(max);
+}
+
 
 MainWindow::~MainWindow()
 {

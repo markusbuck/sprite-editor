@@ -21,6 +21,7 @@ public:
 
 public slots:
     void onDisplayCurrentFrame(QImage* frame);
+    void updateMaxFrames(int max);
 
 private:
     Ui::MainWindow *ui;

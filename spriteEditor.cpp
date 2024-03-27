@@ -29,10 +29,16 @@ void SpriteEditor::addFrame(){
     frames.push_back(newFrame);
     currentFrame = frames.length() - 1;
     displayCurrentFrame();
+    emit updateFrameBox(currentFrame);
 }
 
 void SpriteEditor::deleteFrame(){
 
+}
+
+void SpriteEditor::adjustFrame(int val){
+    currentFrame = val;
+    displayCurrentFrame();
 }
 
 void SpriteEditor::onNewProject(int width, int height, QString name){

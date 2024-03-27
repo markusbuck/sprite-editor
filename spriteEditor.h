@@ -28,7 +28,6 @@ public:
     QString name;
 
 public slots:
-
     QImage generateOnionSkin(int frame);
     void erasePixel(int x, int y);
     void drawPixel(int x, int y);
@@ -36,8 +35,11 @@ public slots:
     void addFrame();
     void deleteFrame();
     void onNewProject(int width, int height, QString name);
-signals:
+    void adjustFrame(int value);
 
+signals:
+    void updateMaxFrames(int max);
+    void updateFrameBox(int value);
     void displayFrame(QImage* frame);
 
 };
