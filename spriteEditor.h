@@ -31,6 +31,8 @@ public:
 
     int canvasX;
     int canvasY;
+    int ratioX;
+    int ratioY;
 
 public slots:
 

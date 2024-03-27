@@ -29,9 +29,9 @@ MainWindow::MainWindow(SpriteEditor& editor, QWidget *parent)
 }
 
 void MainWindow::onDisplayCurrentFrame(QImage *frame) {
+
     ui->MainEditorCanvas->setPixmap(QPixmap::fromImage(*frame));
 
-    qDebug() << "on display";
 }
 
 MainWindow::~MainWindow()

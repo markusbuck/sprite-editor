@@ -3,9 +3,8 @@
 
 SpriteEditor::SpriteEditor(QWidget *parent)
 {
-    qDebug() << "Constructor";
-    width = 0;
-    height = 0;
+    // width = 440;
+    // height = 440;
 }
 
 QImage SpriteEditor::generateOnionSkin(int frame){
@@ -18,6 +17,11 @@ void SpriteEditor::erasePixel(int x, int y){
 
 void SpriteEditor::drawPixel(int x, int y){
 
+    QImage* frame = &frames[currentFrame];
+
+    frame->setPixelColor(x, y, qRgba(0, 0, 0, 0));
+
+    displayCurrentFrame();
 }
 
 void SpriteEditor::setCurrentColor(int r, int g, int b, int a){
@@ -25,7 +29,10 @@ void SpriteEditor::setCurrentColor(int r, int g, int b, int a){
 }
 
 void SpriteEditor::displayCurrentFrame() {
-    emit displayFrame(&frames[currentFrame]);
+
+    QImage* frame = &frames[currentFrame];
+    //QImage scaledFrame = frame->scaled(440, 440);
+    emit displayFrame(frame);
 }
 
 void SpriteEditor::addFrame(){
@@ -34,8 +41,6 @@ void SpriteEditor::addFrame(){
     frames.push_back(newFrame);
     currentFrame = frames.length() - 1;
     displayCurrentFrame();
-
-    qDebug() << "add frame";
 }
 
 void SpriteEditor::deleteFrame(){
@@ -43,8 +48,11 @@ void SpriteEditor::deleteFrame(){
 }
 
 void SpriteEditor::onNewProject(int width, int height, QString name){
+
     this->height = height;
     this->width = width;
+    this->ratioX = width / 440;
+    this->ratioY = height / 440;
     this->name = name;
     this->frames = QVector<QImage>();
 
@@ -54,16 +62,21 @@ void SpriteEditor::onNewProject(int width, int height, QString name){
 void SpriteEditor::onMouseMoved(int x, int y){
 
     x -= canvasX;
-    y -= canvasY + 20;
+    y -= canvasY;
 
-    if(x < 0 || x > width || y < 0 || y > height)
+    // x -= canvasX * ratioX;
+    // y -= canvasY * ratioY;
+
+    if(x < 0 || x >= 440 || y < 0 || y >= 440)
         return;
 
-    qDebug() << x << " " << y;
+    drawPixel(x, y);
 }
 
 void SpriteEditor::onMousePressed(bool pressed){
-    // qDebug() << pressed;
+    // drawPixel();
+
+
 }
 
 void SpriteEditor::currentCanvasPosition(int x, int y){
