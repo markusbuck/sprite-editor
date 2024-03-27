@@ -5,8 +5,8 @@
 MainWindow::MainWindow(SpriteEditor& editor, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow),
-    background(800, 800, QImage::Format_ARGB32){
-
+    background(800, 800, QImage::Format_ARGB32)
+{
     ui->setupUi(this);
 
     startdialog.setModal(true);
@@ -19,10 +19,11 @@ MainWindow::MainWindow(SpriteEditor& editor, QWidget *parent)
     connect(ui->AddFrameButton, &QPushButton::clicked, &editor, &SpriteEditor::addFrame );
 }
 
-void MainWindow::onDisplayCurrentFrame(QImage *frame){
+void MainWindow::onDisplayCurrentFrame(QImage *frame) {
     ui->MainEditorFrame->setPixmap(QPixmap::fromImage(*frame));
 }
 
-MainWindow::~MainWindow(){
+MainWindow::~MainWindow()
+{
     delete ui;
 }

@@ -1,7 +1,7 @@
 #include "spriteEditor.h"
 #include "QDebug"
 
-SpriteEditor::SpriteEditor(QObject *parent){}
+SpriteEditor::SpriteEditor(QObject *parent) {}
 
 QImage SpriteEditor::generateOnionSkin(int frame){
 
@@ -19,7 +19,7 @@ void SpriteEditor::setCurrentColor(int r, int g, int b, int a){
 
 }
 
-void SpriteEditor::displayCurrentFrame(){
+void SpriteEditor::displayCurrentFrame() {
     emit displayFrame(&frames[currentFrame]);
 }
 
