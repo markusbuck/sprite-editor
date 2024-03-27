@@ -11,13 +11,11 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    pixelarea.cpp \
     spriteEditor.cpp \
     startdialog.cpp
 
 HEADERS += \
     mainwindow.h \
-    pixelarea.h \
     spriteEditor.h \
     startdialog.h
 

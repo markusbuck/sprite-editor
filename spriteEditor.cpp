@@ -1,7 +1,12 @@
 #include "spriteEditor.h"
 #include "QDebug"
 
-SpriteEditor::SpriteEditor(QObject *parent) {}
+SpriteEditor::SpriteEditor(QWidget *parent)
+{
+    qDebug() << "Constructor";
+    width = 0;
+    height = 0;
+}
 
 QImage SpriteEditor::generateOnionSkin(int frame){
 
@@ -25,10 +30,12 @@ void SpriteEditor::displayCurrentFrame() {
 
 void SpriteEditor::addFrame(){
     QImage newFrame = QImage(width, height, QImage::Format_ARGB32);
-    newFrame.fill(qRgba(currentFrame * 50, currentFrame * 50, 0, 255));
+    newFrame.fill(qRgba(255, 255, 255, 255));
     frames.push_back(newFrame);
     currentFrame = frames.length() - 1;
     displayCurrentFrame();
+
+    qDebug() << "add frame";
 }
 
 void SpriteEditor::deleteFrame(){
@@ -42,4 +49,27 @@ void SpriteEditor::onNewProject(int width, int height, QString name){
     this->frames = QVector<QImage>();
 
     addFrame();
+}
+
+void SpriteEditor::onMouseMoved(int x, int y){
+
+    x -= canvasX;
+    y -= canvasY + 20;
+
+    if(x < 0 || x > width || y < 0 || y > height)
+        return;
+
+    qDebug() << x << " " << y;
+}
+
+void SpriteEditor::onMousePressed(bool pressed){
+    // qDebug() << pressed;
+}
+
+void SpriteEditor::currentCanvasPosition(int x, int y){
+    canvasX = x;
+    canvasY = y;
+
+    qDebug() << x << " " << y;
+
 }

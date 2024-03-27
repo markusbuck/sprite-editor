@@ -7,8 +7,10 @@
 #include <QPen>
 #include <QVector>
 #include <QJsonObject>
+#include <QWidget>
+#include <QMouseEvent>
 
-class SpriteEditor : public QObject {
+class SpriteEditor : public QWidget {
 
     Q_OBJECT
 
@@ -21,11 +23,14 @@ private:
     void displayCurrentFrame();
 
 public:
-    explicit SpriteEditor(QObject *parent = nullptr);
+    explicit SpriteEditor(QWidget *parent = nullptr);
 
     int width;
     int height;
     QString name;
+
+    int canvasX;
+    int canvasY;
 
 public slots:
 
@@ -36,6 +41,14 @@ public slots:
     void addFrame();
     void deleteFrame();
     void onNewProject(int width, int height, QString name);
+
+    // mouse
+
+    void onMousePressed(bool pressed);
+    void onMouseMoved(int x, int y);
+
+    void currentCanvasPosition(int x, int y);
+
 signals:
 
     void displayFrame(QImage* frame);
