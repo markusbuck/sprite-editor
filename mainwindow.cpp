@@ -34,6 +34,7 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
     // canvas
 
     connect(this, &MainWindow::setCanvasPosition, &editor, &SpriteEditor::currentCanvasPosition);
+    connect(&editor, &SpriteEditor::updateCanvasSize, this, &MainWindow::onUpdateCanvasSize);
 
     auto canvasPostion = ui->MainEditorCanvas->pos();
     emit setCanvasPosition(canvasPostion.x(), canvasPostion.y());
@@ -99,3 +100,8 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 //     //            .adjusted(-rad, -rad, +rad, +rad));
 //     // lastPoint = endPoint;
 // }
+
+void MainWindow::onUpdateCanvasSize(int x, int y) {
+    auto canvasPostion = ui->MainEditorCanvas->pos();
+    ui->MainEditorCanvas->setGeometry(canvasPostion.x(), canvasPostion.y(), x, y);
+}

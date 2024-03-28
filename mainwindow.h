@@ -25,6 +25,7 @@ public:
 public slots:
     void onDisplayCurrentFrame(QImage* frame);
     void updateMaxFrames(int max);
+    void onUpdateCanvasSize(int x, int y);
 
 signals:
     void mouseMove(int x, int y);

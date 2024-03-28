@@ -30,14 +30,21 @@ private:
 public:
 	explicit SpriteEditor(QWidget *parent = nullptr);
 
+    // actual project info
 	int width;
 	int height;
 	QString name;
 
+    // max scaled values
+    const int maxImageX = 440;
+    const int maxImageY = 440;
+
+    // the ratio of how much to scale upwards
+    float ratio;
+
+    // canvas position
 	int canvasX;
 	int canvasY;
-	int ratioX;
-	int ratioY;
 
 public slots:
 	QImage generateOnionSkin(int frame);
@@ -65,6 +72,7 @@ signals:
 	void updateMaxFrames(int max);
 	void updateFrameBox(int value);
 	void displayFrame(QImage *frame);
+    void updateCanvasSize(int x, int y);
 };
 
 #endif // SPRITEEDITOR_H

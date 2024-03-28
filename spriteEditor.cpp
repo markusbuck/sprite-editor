@@ -3,8 +3,6 @@
 
 SpriteEditor::SpriteEditor(QWidget *parent)
 {
-    // width = 440;
-    // height = 440;
     drawing = true;
     erasing = false;
 }
@@ -38,7 +36,7 @@ void SpriteEditor::setCurrentColor(const QColor &newColor){
 void SpriteEditor::displayCurrentFrame() {
 
     QImage* frame = &frames[currentFrame];
-    QImage scaledFrame = frame->scaled(440, 440);
+    QImage scaledFrame = frame->scaled(width * ratio, height * ratio);
     emit displayFrame(&scaledFrame);
 }
 
@@ -64,17 +62,17 @@ void SpriteEditor::onNewProject(int width, int height, QString name){
 
     this->height = height;
     this->width = width;
-    this->ratioX = width / 440;
-    this->ratioY = height / 440;
     this->name = name;
-    this->frames = QVector<QImage>();
+    frames = QVector<QImage>();
     currentColor = qRgba(255, 0, 0, 255);
+
+    ratio = qMin(maxImageX / width, maxImageY / height);
+    emit updateCanvasSize(width * ratio, height * ratio);
 
     addFrame();
 }
 
 void SpriteEditor::onMouseMoved(int x, int y){
-
     if(drawing)
         translateAndDraw(x, y, true);
 
@@ -83,8 +81,6 @@ void SpriteEditor::onMouseMoved(int x, int y){
 }
 
 void SpriteEditor::onMousePressed(int x, int y, bool pressed){
-    // drawPixel();
-
     if(pressed && drawing)
         translateAndDraw(x, y, true);
 
@@ -104,11 +100,11 @@ void SpriteEditor::translateAndDraw(int x, int y, bool draw){
     x -= canvasX;
     y -= canvasY;
 
-    if (x < 0 || x >= 440 || y < 0 || y >= 440)
+    if (x < 0 || x >= width * ratio || y < 0 || y >= height * ratio)
         return;
 
-    x = x * width / 440;
-    y = y * height / 440;
+    x = x / ratio;
+    y = y / ratio;
 
     if(draw)
         drawPixel(x, y);
