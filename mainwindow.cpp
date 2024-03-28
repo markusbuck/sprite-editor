@@ -54,7 +54,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton)
     {
 
-        emit mousePress(true);
+        emit mousePress((int)event->position().x(), (int)event->position().y(), true);
     }
 }
 
@@ -67,7 +67,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
 void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
-        emit mousePress(false);
+        emit mousePress((int)event->position().x(), (int)event->position().y(), false);
 }
 
 // void MainWindow::paintEvent(QPaintEvent *event)

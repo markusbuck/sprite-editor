@@ -27,7 +27,7 @@ public slots:
 
 signals:
     void mouseMove(int x, int y);
-    void mousePress(bool pressed);
+    void mousePress(int x, int y, bool pressed);
     void setCanvasPosition(int x, int y);
 
 protected:

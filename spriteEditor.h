@@ -22,6 +22,8 @@ private:
 
     void displayCurrentFrame();
 
+    void translateAndDraw(int x, int y);
+
 public:
     explicit SpriteEditor(QWidget *parent = nullptr);
 
@@ -46,7 +48,7 @@ public slots:
 
     // mouse
 
-    void onMousePressed(bool pressed);
+    void onMousePressed(int x, int y, bool pressed);
     void onMouseMoved(int x, int y);
 
     void currentCanvasPosition(int x, int y);

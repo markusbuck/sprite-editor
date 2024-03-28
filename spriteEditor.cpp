@@ -66,6 +66,26 @@ void SpriteEditor::onNewProject(int width, int height, QString name){
 }
 
 void SpriteEditor::onMouseMoved(int x, int y){
+
+    translateAndDraw(x, y);
+}
+
+void SpriteEditor::onMousePressed(int x, int y, bool pressed){
+    // drawPixel();
+
+    if(pressed)
+        translateAndDraw(x, y);
+}
+
+void SpriteEditor::currentCanvasPosition(int x, int y){
+    canvasX = x;
+    canvasY = y;
+
+    qDebug() << x << " " << y;
+
+}
+
+void SpriteEditor::translateAndDraw(int x, int y){
     x -= canvasX;
     y -= canvasY;
 
@@ -76,18 +96,4 @@ void SpriteEditor::onMouseMoved(int x, int y){
     y = y * height / 440;
 
     drawPixel(x, y);
-}
-
-void SpriteEditor::onMousePressed(bool pressed){
-    // drawPixel();
-
-
-}
-
-void SpriteEditor::currentCanvasPosition(int x, int y){
-    canvasX = x;
-    canvasY = y;
-
-    qDebug() << x << " " << y;
-
 }
