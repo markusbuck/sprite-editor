@@ -19,12 +19,13 @@ private:
 	QVector<QImage> frames;
 	int currentFrame;
 	QColor currentColor;
-	QPen pen;
+
+    // toolbar
 	bool drawing;
 	bool erasing;
 
+    // helpers
 	void displayCurrentFrame();
-
 	void translateAndDraw(int x, int y, bool draw);
 
 public:
@@ -36,15 +37,13 @@ public:
 	QString name;
 
     // max scaled values
-    const int maxImageX = 440;
-    const int maxImageY = 440;
+    const QPoint maxImageSize = QPoint(440, 440);
 
     // the ratio of how much to scale upwards
     float ratio;
 
-    // canvas position
-	int canvasX;
-	int canvasY;
+    // the current canvas position to for mouse translation
+    QPoint canvasPosition;
 
 public slots:
 	QImage generateOnionSkin(int frame);
@@ -54,7 +53,7 @@ public slots:
 	void addFrame();
 	void deleteFrame();
 	void onNewProject(int width, int height, QString name);
-   void adjustFrame(int value);
+    void adjustFrame(int value);
 
 
 	// mouse
@@ -73,8 +72,8 @@ signals:
 	void updateMaxFrames(int max);
 	void updateFrameBox(int value);
 	void displayFrame(QImage *frame);
-   void updateCanvasSize(int x, int y);
-   void deleteModelFrame(int frameIndex);
+    void updateCanvasSize(int x, int y);
+    void deleteModelFrame(int frameIndex);
 
 };
 

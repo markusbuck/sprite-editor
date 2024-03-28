@@ -7,34 +7,27 @@ SpriteEditor::SpriteEditor(QWidget *parent)
     erasing = false;
 }
 
-QImage SpriteEditor::generateOnionSkin(int frame){
-
+QImage SpriteEditor::generateOnionSkin(int frame) {
+    // TODO
 }
 
-void SpriteEditor::erasePixel(int x, int y){
-
+void SpriteEditor::erasePixel(int x, int y) {
     QImage* frame = &frames[currentFrame];
-
     frame->setPixel(x, y, qRgba(255, 255, 255, 0));
-
     displayCurrentFrame();
 }
 
-void SpriteEditor::drawPixel(int x, int y){
-
+void SpriteEditor::drawPixel(int x, int y) {
     QImage* frame = &frames[currentFrame];
-
     frame->setPixelColor(x, y, currentColor);
-
     displayCurrentFrame();
 }
 
-void SpriteEditor::setCurrentColor(const QColor &newColor){
+void SpriteEditor::setCurrentColor(const QColor &newColor) {
     currentColor = newColor;
 }
 
 void SpriteEditor::displayCurrentFrame() {
-
     QImage* frame = &frames[currentFrame];
     QImage scaledFrame = frame->scaled(width * ratio, height * ratio);
     emit displayFrame(&scaledFrame);
@@ -55,8 +48,7 @@ void SpriteEditor::deleteFrame(){
         currentFrame -= 1;
         emit deleteModelFrame(currentFrame);
         displayCurrentFrame();
-    }
-    else if(currentFrame == 0 && frames.length()-1 > 0){
+    } else if(currentFrame == 0 && frames.length()-1 > 0){
         frames.removeAt(0);
         emit deleteModelFrame(currentFrame);
         displayCurrentFrame();
@@ -68,21 +60,20 @@ void SpriteEditor::adjustFrame(int val){
     displayCurrentFrame();
 }
 
-void SpriteEditor::onNewProject(int width, int height, QString name){
-
+void SpriteEditor::onNewProject(int width, int height, QString name) {
     this->height = height;
     this->width = width;
     this->name = name;
     frames = QVector<QImage>();
     currentColor = qRgba(255, 0, 0, 255);
 
-    ratio = qMin(maxImageX / width, maxImageY / height);
+    ratio = qMin(maxImageSize.x() / width, maxImageSize.y() / height);
     emit updateCanvasSize(width * ratio, height * ratio);
 
     addFrame();
 }
 
-void SpriteEditor::onMouseMoved(int x, int y){
+void SpriteEditor::onMouseMoved(int x, int y) {
     if(drawing)
         translateAndDraw(x, y, true);
 
@@ -90,22 +81,20 @@ void SpriteEditor::onMouseMoved(int x, int y){
         translateAndDraw(x, y, false);
 }
 
-void SpriteEditor::onMousePressed(int x, int y, bool pressed){
+void SpriteEditor::onMousePressed(int x, int y, bool pressed) {
     if(pressed && drawing)
         translateAndDraw(x, y, true);
-
-    if(pressed && erasing)
+    else if(pressed && erasing)
         translateAndDraw(x, y, false);
 }
 
-void SpriteEditor::currentCanvasPosition(int x, int y){
-    canvasX = x;
-    canvasY = y;
+void SpriteEditor::currentCanvasPosition(int x, int y) {
+    canvasPosition = QPoint(x, y);
 }
 
-void SpriteEditor::translateAndDraw(int x, int y, bool draw){
-    x -= canvasX;
-    y -= canvasY;
+void SpriteEditor::translateAndDraw(int x, int y, bool draw) {
+    x -= canvasPosition.x();
+    y -= canvasPosition.y();
 
     if (x < 0 || x >= width * ratio || y < 0 || y >= height * ratio)
         return;
@@ -122,7 +111,6 @@ void SpriteEditor::translateAndDraw(int x, int y, bool draw){
 // toolbar
 
 void SpriteEditor::onDrawPressed(bool pressed){
-
     if(erasing)
         erasing = false;
 
@@ -130,7 +118,6 @@ void SpriteEditor::onDrawPressed(bool pressed){
 }
 
 void SpriteEditor::onErasePressed(bool pressed){
-
     if(drawing)
         drawing = false;
 
