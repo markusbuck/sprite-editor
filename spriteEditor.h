@@ -18,7 +18,7 @@ class SpriteEditor : public QWidget
 private:
     QVector<QImage> frames;
     int currentFrame;
-    QPen pen;
+    QColor currentColor;
 
     void displayCurrentFrame();
 
@@ -40,7 +40,7 @@ public slots:
     QImage generateOnionSkin(int frame);
     void erasePixel(int x, int y);
     void drawPixel(int x, int y);
-    void setCurrentColor(int r, int g, int b, int a);
+    void setCurrentColor(const QColor &newColor);
     void addFrame();
     void deleteFrame();
     void onNewProject(int width, int height, QString name);

@@ -16,6 +16,10 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
     connect(ui->frameAdjustor, &QSpinBox::valueChanged, &editor, &SpriteEditor::adjustFrame);
     connect(&editor, &SpriteEditor::updateFrameBox, ui->frameAdjustor, &QSpinBox::setValue);
     connect(&editor, &SpriteEditor::updateFrameBox, this, &MainWindow::updateMaxFrames);
+    connect(&colorDialog, &QColorDialog::colorSelected, [&editor](const QColor& newColor){
+        editor.setCurrentColor(newColor);
+    });
+    connect(ui->ColorButton, &QPushButton::clicked, this, [this](){ colorDialog.show(); });
 
     // mouse
 

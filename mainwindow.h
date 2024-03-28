@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "startdialog.h"
 #include "spriteEditor.h"
+#include "QColorDialog"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -40,6 +41,7 @@ private:
     Ui::MainWindow *ui;
     QImage background;
     StartDialog startdialog;
+    QColorDialog colorDialog;
 
     // drawing stuff
 

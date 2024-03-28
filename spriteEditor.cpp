@@ -19,13 +19,13 @@ void SpriteEditor::drawPixel(int x, int y){
 
     QImage* frame = &frames[currentFrame];
 
-    frame->setPixelColor(x, y, qRgba(0, 0, 0, 0));
+    frame->setPixelColor(x, y, currentColor);
 
     displayCurrentFrame();
 }
 
-void SpriteEditor::setCurrentColor(int r, int g, int b, int a){
-
+void SpriteEditor::setCurrentColor(const QColor &newColor){
+    currentColor = newColor;
 }
 
 void SpriteEditor::displayCurrentFrame() {
@@ -37,7 +37,7 @@ void SpriteEditor::displayCurrentFrame() {
 
 void SpriteEditor::addFrame(){
     QImage newFrame = QImage(width, height, QImage::Format_ARGB32);
-    newFrame.fill(qRgba(255, 255, 255, 255));
+    newFrame.fill(qRgba(255, 255, 255, 0));
     frames.push_back(newFrame);
     currentFrame = frames.length() - 1;
     displayCurrentFrame();
