@@ -24,6 +24,11 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
     connect(ui->ColorButton, &QPushButton::clicked, this, [this](){ colorDialog.show(); });
 
     connect(ui->action_new, &QAction::triggered, &editor, [this](bool) { startdialog.show(); });
+    //delete
+    connect(ui->DeleteFrameButton, &QPushButton::clicked, &editor, &SpriteEditor::deleteFrame);
+    connect(&editor, SpriteEditor::deleteModelFrame, this,MainWindow::deleteViewFrame);
+
+
 
     // toolbar
 
@@ -60,6 +65,12 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+//delete
+void MainWindow::deleteViewFrame(int value){
+    ui->frameAdjustor->setMaximum(ui->frameAdjustor->maximum()-1);
+    ui->frameAdjustor->setValue(value);
+}
+
 
 // mouse
 

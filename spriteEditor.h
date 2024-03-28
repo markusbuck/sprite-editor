@@ -54,7 +54,8 @@ public slots:
 	void addFrame();
 	void deleteFrame();
 	void onNewProject(int width, int height, QString name);
-	void adjustFrame(int value);
+   void adjustFrame(int value);
+
 
 	// mouse
 
@@ -72,7 +73,9 @@ signals:
 	void updateMaxFrames(int max);
 	void updateFrameBox(int value);
 	void displayFrame(QImage *frame);
-    void updateCanvasSize(int x, int y);
+   void updateCanvasSize(int x, int y);
+   void deleteModelFrame(int frameIndex);
+
 };
 
 #endif // SPRITEEDITOR_H

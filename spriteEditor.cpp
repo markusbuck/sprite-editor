@@ -50,7 +50,17 @@ void SpriteEditor::addFrame(){
 }
 
 void SpriteEditor::deleteFrame(){
-
+    if(currentFrame != 0 && frames.length()-1 != 0){
+        frames.removeAt(currentFrame);
+        currentFrame -= 1;
+        emit deleteModelFrame(currentFrame);
+        displayCurrentFrame();
+    }
+    else if(currentFrame == 0 && frames.length()-1 > 0){
+        frames.removeAt(0);
+        emit deleteModelFrame(currentFrame);
+        displayCurrentFrame();
+    }
 }
 
 void SpriteEditor::adjustFrame(int val){
