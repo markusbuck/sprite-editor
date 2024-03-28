@@ -17,6 +17,11 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
     connect(&editor, &SpriteEditor::updateFrameBox, ui->frameAdjustor, &QSpinBox::setValue);
     connect(&editor, &SpriteEditor::updateFrameBox, this, &MainWindow::updateMaxFrames);
 
+    // toolbar
+
+    connect (ui->DrawButton, &QPushButton::clicked, &editor, &SpriteEditor::onDrawPressed);
+    connect (ui->EraseButton, &QPushButton::clicked, &editor, &SpriteEditor::onErasePressed);
+
     // mouse
 
     connect(this, &MainWindow::mousePress, &editor, &SpriteEditor::onMousePressed);
@@ -28,6 +33,7 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
 
     auto canvasPostion = ui->MainEditorCanvas->pos();
     emit setCanvasPosition(canvasPostion.x(), canvasPostion.y());
+
 }
 
 void MainWindow::onDisplayCurrentFrame(QImage *frame)

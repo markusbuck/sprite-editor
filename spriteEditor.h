@@ -19,10 +19,12 @@ private:
     QVector<QImage> frames;
     int currentFrame;
     QPen pen;
+    bool drawing;
+    bool erasing;
 
     void displayCurrentFrame();
 
-    void translateAndDraw(int x, int y);
+    void translateAndDraw(int x, int y, bool draw);
 
 public:
     explicit SpriteEditor(QWidget *parent = nullptr);
@@ -52,6 +54,11 @@ public slots:
     void onMouseMoved(int x, int y);
 
     void currentCanvasPosition(int x, int y);
+
+    // toolbar
+
+    void onDrawPressed(bool pressed);
+    void onErasePressed(bool pressed);
 
 signals:
     void updateMaxFrames(int max);
