@@ -31,8 +31,8 @@ void SpriteEditor::setCurrentColor(int r, int g, int b, int a){
 void SpriteEditor::displayCurrentFrame() {
 
     QImage* frame = &frames[currentFrame];
-    //QImage scaledFrame = frame->scaled(440, 440);
-    emit displayFrame(frame);
+    QImage scaledFrame = frame->scaled(440, 440);
+    emit displayFrame(&scaledFrame);
 }
 
 void SpriteEditor::addFrame(){
@@ -66,15 +66,14 @@ void SpriteEditor::onNewProject(int width, int height, QString name){
 }
 
 void SpriteEditor::onMouseMoved(int x, int y){
-
     x -= canvasX;
     y -= canvasY;
 
-    // x -= canvasX * ratioX;
-    // y -= canvasY * ratioY;
-
-    if(x < 0 || x >= 440 || y < 0 || y >= 440)
+    if (x < 0 || x >= 440 || y < 0 || y >= 440)
         return;
+
+    x = x * width / 440;
+    y = y * height / 440;
 
     drawPixel(x, y);
 }
