@@ -7,13 +7,15 @@
 #include <QPen>
 #include <QVector>
 #include <QJsonObject>
+#include <QWidget>
+#include <QMouseEvent>
 
-class SpriteEditor : public QObject {
+class SpriteEditor : public QWidget
+{
 
     Q_OBJECT
 
 private:
-
     QVector<QImage> frames;
     int currentFrame;
     QPen pen;
@@ -21,11 +23,16 @@ private:
     void displayCurrentFrame();
 
 public:
-    explicit SpriteEditor(QObject *parent = nullptr);
+    explicit SpriteEditor(QWidget *parent = nullptr);
 
     int width;
     int height;
     QString name;
+
+    int canvasX;
+    int canvasY;
+    int ratioX;
+    int ratioY;
 
 public slots:
     QImage generateOnionSkin(int frame);
@@ -37,11 +44,17 @@ public slots:
     void onNewProject(int width, int height, QString name);
     void adjustFrame(int value);
 
+    // mouse
+
+    void onMousePressed(bool pressed);
+    void onMouseMoved(int x, int y);
+
+    void currentCanvasPosition(int x, int y);
+
 signals:
     void updateMaxFrames(int max);
     void updateFrameBox(int value);
-    void displayFrame(QImage* frame);
-
+    void displayFrame(QImage *frame);
 };
 
 #endif // SPRITEEDITOR_H
