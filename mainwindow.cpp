@@ -16,8 +16,8 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
     connect(&editor, &SpriteEditor::displayFrame, this, &MainWindow::onDisplayCurrentFrame);
     connect(ui->AddFrameButton, &QPushButton::clicked, &editor, &SpriteEditor::addFrame);
     connect(ui->frameAdjustor, &QSpinBox::valueChanged, &editor, &SpriteEditor::adjustFrame);
-    connect(&editor, &SpriteEditor::updateFrameBox, ui->frameAdjustor, &QSpinBox::setValue);
     connect(&editor, &SpriteEditor::updateFrameBox, this, &MainWindow::updateMaxFrames);
+    connect(&editor, &SpriteEditor::updateFrameBox, ui->frameAdjustor, &QSpinBox::setValue);
     connect(&colorDialog, &QColorDialog::colorSelected, [&editor](const QColor& newColor){
         editor.setCurrentColor(newColor);
     });

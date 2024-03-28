@@ -101,9 +101,6 @@ void SpriteEditor::onMousePressed(int x, int y, bool pressed){
 void SpriteEditor::currentCanvasPosition(int x, int y){
     canvasX = x;
     canvasY = y;
-
-    qDebug() << x << " " << y;
-
 }
 
 void SpriteEditor::translateAndDraw(int x, int y, bool draw){
