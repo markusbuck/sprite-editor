@@ -17,7 +17,7 @@ void SpriteEditor::erasePixel(int x, int y){
 
     QImage* frame = &frames[currentFrame];
 
-    frame->setPixelColor(x, y, qRgba(255, 255, 255, 255));
+    frame->setPixel(x, y, qRgba(255, 255, 255, 0));
 
     displayCurrentFrame();
 }
@@ -68,6 +68,7 @@ void SpriteEditor::onNewProject(int width, int height, QString name){
     this->ratioY = height / 440;
     this->name = name;
     this->frames = QVector<QImage>();
+    currentColor = qRgba(255, 0, 0, 255);
 
     addFrame();
 }
