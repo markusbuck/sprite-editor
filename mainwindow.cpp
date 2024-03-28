@@ -12,21 +12,26 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
 
     colorDialog.setModal(true);
 
+    // new project
     connect(&startdialog, &StartDialog::onProjectAccepted, &editor, &SpriteEditor::onNewProject);
-    connect(&editor, &SpriteEditor::displayFrame, this, &MainWindow::onDisplayCurrentFrame);
-    connect(ui->AddFrameButton, &QPushButton::clicked, &editor, &SpriteEditor::addFrame);
-    connect(ui->frameAdjustor, &QSpinBox::valueChanged, &editor, &SpriteEditor::adjustFrame);
-    connect(&editor, &SpriteEditor::updateFrameBox, this, &MainWindow::updateMaxFrames);
-    connect(&editor, &SpriteEditor::updateFrameBox, ui->frameAdjustor, &QSpinBox::setValue);
+    connect(ui->action_new, &QAction::triggered, &editor, [this](bool) { startdialog.show(); });
+
     connect(&colorDialog, &QColorDialog::colorSelected, [&editor](const QColor& newColor){
         editor.setCurrentColor(newColor);
     });
     connect(ui->ColorButton, &QPushButton::clicked, this, [this](){ colorDialog.show(); });
 
-    connect(ui->action_new, &QAction::triggered, &editor, [this](bool) { startdialog.show(); });
-    //delete
+    // frames
+
+    connect(&editor, &SpriteEditor::displayFrame, this, &MainWindow::onDisplayCurrentFrame);
+    // add
+    connect(ui->AddFrameButton, &QPushButton::clicked, &editor, &SpriteEditor::addFrame);
+    connect(ui->frameAdjustor, &QSpinBox::valueChanged, &editor, &SpriteEditor::adjustFrame);
+    connect(&editor, &SpriteEditor::updateFrameBox, this, &MainWindow::updateMaxFrames);
+    connect(&editor, &SpriteEditor::updateFrameBox, ui->frameAdjustor, &QSpinBox::setValue);
+    // delete
     connect(ui->DeleteFrameButton, &QPushButton::clicked, &editor, &SpriteEditor::deleteFrame);
-    connect(&editor, SpriteEditor::deleteModelFrame, this,MainWindow::deleteViewFrame);
+    connect(&editor, &SpriteEditor::deleteModelFrame, this, &MainWindow::deleteViewFrame);
 
 
 
@@ -65,6 +70,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
 //delete
 void MainWindow::deleteViewFrame(int value){
     ui->frameAdjustor->setMaximum(ui->frameAdjustor->maximum()-1);
@@ -73,48 +79,20 @@ void MainWindow::deleteViewFrame(int value){
 
 
 // mouse
-
-void MainWindow::mousePressEvent(QMouseEvent *event)
-{
+void MainWindow::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton)
-    {
-
         emit mousePress((int)event->position().x(), (int)event->position().y(), true);
-    }
 }
 
-void MainWindow::mouseMoveEvent(QMouseEvent *event)
-{
+void MainWindow::mouseMoveEvent(QMouseEvent *event) {
     if ((event->buttons() & Qt::LeftButton))
         emit mouseMove((int)event->position().x(), (int)event->position().y());
 }
 
-void MainWindow::mouseReleaseEvent(QMouseEvent *event)
-{
+void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton)
         emit mousePress((int)event->position().x(), (int)event->position().y(), false);
 }
-
-// void MainWindow::paintEvent(QPaintEvent *event)
-// {
-//     // QPainter painter(this);
-//     // QRect dirtyRect = event->rect();
-//     // painter.drawImage(dirtyRect, image, dirtyRect);
-// }
-
-// void MainWindow::drawLineTo(const QPoint &endPoint)
-// {
-//     // QPainter painter(&image);
-//     // painter.setPen(QPen(myPenColor, myPenWidth, Qt::SolidLine, Qt::RoundCap,
-//     //                     Qt::RoundJoin));
-//     // painter.drawLine(lastPoint, endPoint);
-//     // modified = true;
-
-//     // int rad = (myPenWidth / 2) + 2;
-//     // update(QRect(lastPoint, endPoint).normalized()
-//     //            .adjusted(-rad, -rad, +rad, +rad));
-//     // lastPoint = endPoint;
-// }
 
 void MainWindow::onUpdateCanvasSize(int x, int y) {
     auto canvasPostion = ui->MainEditorCanvas->pos();
