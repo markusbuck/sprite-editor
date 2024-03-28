@@ -10,6 +10,8 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
     startdialog.setModal(true);
     startdialog.show();
 
+    colorDialog.setModal(true);
+
     connect(&startdialog, &StartDialog::onProjectAccepted, &editor, &SpriteEditor::onNewProject);
     connect(&editor, &SpriteEditor::displayFrame, this, &MainWindow::onDisplayCurrentFrame);
     connect(ui->AddFrameButton, &QPushButton::clicked, &editor, &SpriteEditor::addFrame);
@@ -20,6 +22,8 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
         editor.setCurrentColor(newColor);
     });
     connect(ui->ColorButton, &QPushButton::clicked, this, [this](){ colorDialog.show(); });
+
+    connect(ui->action_new, &QAction::triggered, &editor, [this](bool) { startdialog.show(); });
 
     // toolbar
 
