@@ -13,50 +13,58 @@
 class SpriteEditor : public QWidget
 {
 
-    Q_OBJECT
+	Q_OBJECT
 
 private:
-    QVector<QImage> frames;
-    int currentFrame;
-    QColor currentColor;
+	QVector<QImage> frames;
+	int currentFrame;
+	QColor currentColor;
+	QPen pen;
+	bool drawing;
+	bool erasing;
 
-    void displayCurrentFrame();
+	void displayCurrentFrame();
 
-    void translateAndDraw(int x, int y);
+	void translateAndDraw(int x, int y, bool draw);
 
 public:
-    explicit SpriteEditor(QWidget *parent = nullptr);
+	explicit SpriteEditor(QWidget *parent = nullptr);
 
-    int width;
-    int height;
-    QString name;
+	int width;
+	int height;
+	QString name;
 
-    int canvasX;
-    int canvasY;
-    int ratioX;
-    int ratioY;
+	int canvasX;
+	int canvasY;
+	int ratioX;
+	int ratioY;
 
 public slots:
-    QImage generateOnionSkin(int frame);
-    void erasePixel(int x, int y);
-    void drawPixel(int x, int y);
-    void setCurrentColor(const QColor &newColor);
-    void addFrame();
-    void deleteFrame();
-    void onNewProject(int width, int height, QString name);
-    void adjustFrame(int value);
+	QImage generateOnionSkin(int frame);
+	void erasePixel(int x, int y);
+	void drawPixel(int x, int y);
+	void setCurrentColor(const QColor &newColor);
+	void addFrame();
+	void deleteFrame();
+	void onNewProject(int width, int height, QString name);
+	void adjustFrame(int value);
 
-    // mouse
+	// mouse
 
-    void onMousePressed(int x, int y, bool pressed);
-    void onMouseMoved(int x, int y);
+	void onMousePressed(int x, int y, bool pressed);
+	void onMouseMoved(int x, int y);
 
-    void currentCanvasPosition(int x, int y);
+	void currentCanvasPosition(int x, int y);
+
+	// toolbar
+
+	void onDrawPressed(bool pressed);
+	void onErasePressed(bool pressed);
 
 signals:
-    void updateMaxFrames(int max);
-    void updateFrameBox(int value);
-    void displayFrame(QImage *frame);
+	void updateMaxFrames(int max);
+	void updateFrameBox(int value);
+	void displayFrame(QImage *frame);
 };
 
 #endif // SPRITEEDITOR_H

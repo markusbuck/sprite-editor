@@ -21,6 +21,11 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
     });
     connect(ui->ColorButton, &QPushButton::clicked, this, [this](){ colorDialog.show(); });
 
+    // toolbar
+
+    connect (ui->DrawButton, &QPushButton::clicked, &editor, &SpriteEditor::onDrawPressed);
+    connect (ui->EraseButton, &QPushButton::clicked, &editor, &SpriteEditor::onErasePressed);
+
     // mouse
 
     connect(this, &MainWindow::mousePress, &editor, &SpriteEditor::onMousePressed);
@@ -32,6 +37,7 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
 
     auto canvasPostion = ui->MainEditorCanvas->pos();
     emit setCanvasPosition(canvasPostion.x(), canvasPostion.y());
+
 }
 
 void MainWindow::onDisplayCurrentFrame(QImage *frame)

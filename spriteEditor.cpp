@@ -5,6 +5,8 @@ SpriteEditor::SpriteEditor(QWidget *parent)
 {
     // width = 440;
     // height = 440;
+    drawing = true;
+    erasing = false;
 }
 
 QImage SpriteEditor::generateOnionSkin(int frame){
@@ -13,6 +15,11 @@ QImage SpriteEditor::generateOnionSkin(int frame){
 
 void SpriteEditor::erasePixel(int x, int y){
 
+    QImage* frame = &frames[currentFrame];
+
+    frame->setPixelColor(x, y, qRgba(255, 255, 255, 255));
+
+    displayCurrentFrame();
 }
 
 void SpriteEditor::drawPixel(int x, int y){
@@ -67,14 +74,21 @@ void SpriteEditor::onNewProject(int width, int height, QString name){
 
 void SpriteEditor::onMouseMoved(int x, int y){
 
-    translateAndDraw(x, y);
+    if(drawing)
+        translateAndDraw(x, y, true);
+
+    if(erasing)
+        translateAndDraw(x, y, false);
 }
 
 void SpriteEditor::onMousePressed(int x, int y, bool pressed){
     // drawPixel();
 
-    if(pressed)
-        translateAndDraw(x, y);
+    if(pressed && drawing)
+        translateAndDraw(x, y, true);
+
+    if(pressed && erasing)
+        translateAndDraw(x, y, false);
 }
 
 void SpriteEditor::currentCanvasPosition(int x, int y){
@@ -85,7 +99,7 @@ void SpriteEditor::currentCanvasPosition(int x, int y){
 
 }
 
-void SpriteEditor::translateAndDraw(int x, int y){
+void SpriteEditor::translateAndDraw(int x, int y, bool draw){
     x -= canvasX;
     y -= canvasY;
 
@@ -95,5 +109,26 @@ void SpriteEditor::translateAndDraw(int x, int y){
     x = x * width / 440;
     y = y * height / 440;
 
-    drawPixel(x, y);
+    if(draw)
+        drawPixel(x, y);
+    else
+        erasePixel(x, y);
+}
+
+// toolbar
+
+void SpriteEditor::onDrawPressed(bool pressed){
+
+    if(erasing)
+        erasing = false;
+
+    drawing = true;
+}
+
+void SpriteEditor::onErasePressed(bool pressed){
+
+    if(drawing)
+        drawing = false;
+
+    erasing = true;
 }
