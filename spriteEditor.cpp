@@ -205,7 +205,65 @@ bool SpriteEditor::translateAndDraw(int x, int y, bool draw) {
 
     return true;
 }
+//JsonConversion
+void SpriteEditor::toJson(){
+    QJsonObject json;
+    QJsonArray imageFrames;
 
+    for (const QImage &image : frames) {
+        QByteArray ba;
+        QBuffer buffer(&ba);
+        buffer.open(QIODevice::WriteOnly);
+
+        if (!image.isNull()) {
+            if (image.save(&buffer, "PNG")) {
+                QVariant variant(ba.toBase64()); // Convert QByteArray to base64 string
+                QJsonValue tempValue;
+                tempValue = variant.toString();
+                imageFrames.append(tempValue);
+            } else {
+                qDebug() << "Failed to save image to buffer";
+                // Handle error appropriately
+            }
+        } else {
+            qDebug() << "Image is null";
+            // Handle error appropriately or skip adding null images
+        }
+    }
+
+    json["frames"] = imageFrames;
+    emit jsonObject(json);
+    // //Json object.
+    // QJsonObject json;
+    // QJsonArray imageFrames;
+    // // QByteArray ba;
+    // for(QImage &image : frames){
+    //     QByteArray ba;
+    //     QBuffer buffer(&ba);
+    //     buffer.open(QIODevice::WriteOnly);
+    //     image.save(&buffer,"PNG");
+    //     QVariant varient = QVariant(image);
+    //     QJsonValue tempValue;
+    //     tempValue.fromVariant(varient);
+    //     imageFrames.append(tempValue);
+    // }
+    // json["frames"] = imageFrames;
+    // emit jsonObject(json);
+    // //Json object ot hold array.
+    // QImage image;
+    // //Conversion to byte array.
+    // QByteArray ba;
+    // QBuffer buffer(&ba);
+    // buffer.open(QIODevice::WriteOnly);
+    // image.save(&buffer, "PNG"); // writes image into ba in PNG format.
+    // //Store byte array in varient to create json value.
+    // QVariant varient = QVariant(image);
+    // QJsonValue tempValue;
+    // tempValue.fromVariant(varient);
+    // //How to append elements to the array.
+    // imageFrames.append(tempValue);
+
+}
 // mouse events
 
 void SpriteEditor::onMouseMoved(int x, int y) {

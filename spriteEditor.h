@@ -9,6 +9,11 @@
 #include <QJsonObject>
 #include <QWidget>
 #include <QMouseEvent>
+#include<QJsonObject>
+#include<QJsonArray>
+#include <QVariant>
+#include <QBuffer>
+
 
 class SpriteEditor : public QWidget
 {
@@ -66,6 +71,7 @@ public slots:
 	void onNewProject(int width, int height, QString name);
     void adjustFrame(int value);
     void toggleOnionSkin(int state);
+    void toJson();
 
 	// mouse
 
@@ -85,6 +91,7 @@ signals:
 	void displayFrame(QImage *frame);
     void updateCanvasSize(int x, int y);
     void deleteModelFrame(int frameIndex);
+    void jsonObject(QJsonObject json);
 
 };
 

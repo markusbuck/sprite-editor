@@ -21,6 +21,9 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
     });
     connect(ui->ColorButton, &QPushButton::clicked, this, [this](){ colorDialog.show(); });
 
+    //save/load
+    connect(ui->action_save,QAction::triggered,&editor,&SpriteEditor::toJson);
+    connect(&editor, &SpriteEditor::jsonObject,this,MainWindow::saveAs);
     // frames
 
     connect(&editor, &SpriteEditor::displayFrame, this, &MainWindow::onDisplayCurrentFrame);
@@ -77,8 +80,36 @@ void MainWindow::deleteViewFrame(int value){
     ui->frameAdjustor->setMaximum(ui->frameAdjustor->maximum()-1);
     ui->frameAdjustor->setValue(value);
 }
+//saveas
+void MainWindow::saveAs(QJsonObject json){
+    //Maybe have text box pop up for file name.
+    QString filePath = QFileDialog::getSaveFileName(nullptr,"yuh","",".json");
+    // QFile file(filePath);
+    // QJsonDocument jsonDocument;
+    // jsonDocument.setObject(json);
+    // file.write(jsonDocument.toJson());
+    if (!filePath.isEmpty()) {
+        QFile file(filePath);
+        if (file.open(QIODevice::WriteOnly)) {
+            QJsonDocument jsonDocument;
+            jsonDocument.setObject(json);
+            QByteArray jsonData = jsonDocument.toJson();
+            qint64 bytesWritten = file.write(jsonData);
 
+            if (bytesWritten == -1) {
+                qDebug() << "Error writing to file:" << file.errorString();
+                // Handle error appropriately
+            } else {
+                qDebug() << "File saved successfully";
+            }
 
+            file.close();
+        } else {
+            qDebug() << "Failed to open file for writing:" << file.errorString();
+            // Handle error appropriately
+        }
+    }
+}
 // mouse
 void MainWindow::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton)

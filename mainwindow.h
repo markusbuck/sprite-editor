@@ -5,6 +5,9 @@
 #include "startdialog.h"
 #include "spriteEditor.h"
 #include "QColorDialog"
+#include <QSaveFile>
+#include <QFileDialog>
+#include <QJsonDocument>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -25,7 +28,7 @@ public slots:
     void updateMaxFrames(int max);
     void onUpdateCanvasSize(int x, int y);
     void deleteViewFrame(int index);
-
+    void saveAs(QJsonObject json);
 
 signals:
     void mouseMove(int x, int y);
