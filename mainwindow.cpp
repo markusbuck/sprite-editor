@@ -33,8 +33,6 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
     connect(ui->DeleteFrameButton, &QPushButton::clicked, &editor, &SpriteEditor::deleteFrame);
     connect(&editor, &SpriteEditor::deleteModelFrame, this, &MainWindow::deleteViewFrame);
 
-
-
     // toolbar
 
     connect (ui->DrawButton, &QPushButton::clicked, &editor, &SpriteEditor::onDrawPressed);
@@ -44,6 +42,9 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
 
     connect(this, &MainWindow::mousePress, &editor, &SpriteEditor::onMousePressed);
     connect(this, &MainWindow::mouseMove, &editor, &SpriteEditor::onMouseMoved);
+
+    // onion skin
+    connect(ui->OnionSkin, &QCheckBox::stateChanged, &editor, &SpriteEditor::toggleOnionSkin);
 
     // canvas
 

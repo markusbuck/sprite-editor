@@ -20,8 +20,6 @@ public:
     MainWindow(SpriteEditor& editor, QWidget *parent = nullptr);
     ~MainWindow();
 
-    bool isModified() const { return modified; }
-
 public slots:
     void onDisplayCurrentFrame(QImage* frame);
     void updateMaxFrames(int max);
@@ -43,13 +41,5 @@ private:
     QImage background;
     StartDialog startdialog;
     QColorDialog colorDialog;
-
-    // drawing stuff
-    bool modified = false;
-    bool scribbling = false;
-    int myPenWidth = 1;
-    QColor myPenColor = Qt::blue;
-    QImage image;
-    QPoint lastPoint;
 };
 #endif // MAINWINDOW_H

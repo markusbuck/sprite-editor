@@ -45,6 +45,11 @@ private:
 	void translateAndDraw(int x, int y, bool draw);
     void showCursorPreview(int x, int y);
 
+    // onion skin
+    bool isOnionSkinOn = false;
+    QImage* onionSkin;
+    QImage generateOnionSkin();
+
 public:
 	explicit SpriteEditor(QWidget *parent = nullptr);
 
@@ -53,7 +58,6 @@ public:
 	int height;
 	QString name;
 public slots:
-	QImage generateOnionSkin(int frame);
 	void erasePixel(int x, int y);
     void drawPixel(int x, int y, const QColor &color);
 	void setCurrentColor(const QColor &newColor);
@@ -61,7 +65,7 @@ public slots:
 	void deleteFrame();
 	void onNewProject(int width, int height, QString name);
     void adjustFrame(int value);
-
+    void toggleOnionSkin(int state);
 
 	// mouse
 
