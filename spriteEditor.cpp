@@ -190,7 +190,6 @@ bool SpriteEditor::translateAndDraw(int x, int y, bool draw) {
         return true;
     } else if (!draw) {
         erasePixel(x, y);
-        showCursorPreview(x, y);
     } else {
         drawPixel(x, y, currentColor);
         lastMousePosition = QPoint(-1, -1);
