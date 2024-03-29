@@ -23,7 +23,7 @@ private:
     QColor previewColor;
 
     // max scaled values
-    const QPoint maxImageSize = QPoint(440, 440);
+    const QPoint maxImageSize = QPoint(448, 448);
 
     // the ratio of how much to scale upwards
     float ratio;

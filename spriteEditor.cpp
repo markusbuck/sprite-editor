@@ -71,6 +71,7 @@ void SpriteEditor::onNewProject(int width, int height, QString name) {
     setCurrentColor(qRgba(255, 0, 0, 255));
 
     ratio = qMin(maxImageSize.x() / width, maxImageSize.y() / height);
+    qDebug() << "current ratio: " << ratio;
     emit updateCanvasSize(width * ratio, height * ratio);
 
     addFrame();
