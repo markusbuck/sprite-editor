@@ -38,8 +38,6 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
-    // void paintEvent(QPaintEvent *event) override;
-
 private:
     Ui::MainWindow *ui;
     QImage background;
@@ -47,10 +45,6 @@ private:
     QColorDialog colorDialog;
 
     // drawing stuff
-
-    // void drawLineTo(const QPoint &endPoint);
-    // void resizeImage(QImage *image, const QSize &newSize);
-
     bool modified = false;
     bool scribbling = false;
     int myPenWidth = 1;

@@ -5,6 +5,8 @@ SpriteEditor::SpriteEditor(QWidget *parent)
 {
     drawing = true;
     erasing = false;
+    mousePressed = false;
+    lastMousePosition = QPoint(-1, -1);
 }
 
 QImage SpriteEditor::generateOnionSkin(int frame) {
@@ -17,14 +19,15 @@ void SpriteEditor::erasePixel(int x, int y) {
     displayCurrentFrame();
 }
 
-void SpriteEditor::drawPixel(int x, int y) {
+void SpriteEditor::drawPixel(int x, int y, const QColor &color) {
     QImage* frame = &frames[currentFrame];
-    frame->setPixelColor(x, y, currentColor);
+    frame->setPixelColor(x, y, color);
     displayCurrentFrame();
 }
 
 void SpriteEditor::setCurrentColor(const QColor &newColor) {
     currentColor = newColor;
+    previewColor = newColor.darker(120);
 }
 
 void SpriteEditor::displayCurrentFrame() {
@@ -65,7 +68,7 @@ void SpriteEditor::onNewProject(int width, int height, QString name) {
     this->width = width;
     this->name = name;
     frames = QVector<QImage>();
-    currentColor = qRgba(255, 0, 0, 255);
+    setCurrentColor(qRgba(255, 0, 0, 255));
 
     ratio = qMin(maxImageSize.x() / width, maxImageSize.y() / height);
     emit updateCanvasSize(width * ratio, height * ratio);
@@ -82,6 +85,7 @@ void SpriteEditor::onMouseMoved(int x, int y) {
 }
 
 void SpriteEditor::onMousePressed(int x, int y, bool pressed) {
+    mousePressed = pressed;
     if(pressed && drawing)
         translateAndDraw(x, y, true);
     else if(pressed && erasing)
@@ -90,6 +94,15 @@ void SpriteEditor::onMousePressed(int x, int y, bool pressed) {
 
 void SpriteEditor::currentCanvasPosition(int x, int y) {
     canvasPosition = QPoint(x, y);
+}
+
+void SpriteEditor::showCursorPreview(int x, int y) {
+    if (lastMousePosition.x() >= 0) // revert color
+        drawPixel(lastMousePosition.x(), lastMousePosition.y(), lastPreviewColor);
+
+    lastMousePosition = QPoint(x, y);
+    lastPreviewColor = frames[currentFrame].pixelColor(x, y);
+    drawPixel(x, y, previewColor);
 }
 
 void SpriteEditor::translateAndDraw(int x, int y, bool draw) {
@@ -102,8 +115,15 @@ void SpriteEditor::translateAndDraw(int x, int y, bool draw) {
     x = x / ratio;
     y = y / ratio;
 
+    // only draw when mouse is pressed, otherwise, show possible preview instead
+    if (!mousePressed) {
+        showCursorPreview(x, y);
+        return;
+    }
+    lastMousePosition = QPoint(-1, -1);
+
     if(draw)
-        drawPixel(x, y);
+        drawPixel(x, y, currentColor);
     else
         erasePixel(x, y);
 }

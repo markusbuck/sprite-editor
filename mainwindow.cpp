@@ -85,8 +85,8 @@ void MainWindow::mousePressEvent(QMouseEvent *event) {
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
-    if ((event->buttons() & Qt::LeftButton))
-        emit mouseMove((int)event->position().x(), (int)event->position().y());
+    qDebug() << this->hasMouseTracking();
+    emit mouseMove((int)event->position().x(), (int)event->position().y());
 }
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *event) {

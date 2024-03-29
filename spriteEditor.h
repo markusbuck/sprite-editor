@@ -18,23 +18,9 @@ class SpriteEditor : public QWidget
 private:
 	QVector<QImage> frames;
 	int currentFrame;
+
 	QColor currentColor;
-
-    // toolbar
-	bool drawing;
-	bool erasing;
-
-    // helpers
-	void displayCurrentFrame();
-	void translateAndDraw(int x, int y, bool draw);
-
-public:
-	explicit SpriteEditor(QWidget *parent = nullptr);
-
-    // actual project info
-	int width;
-	int height;
-	QString name;
+    QColor previewColor;
 
     // max scaled values
     const QPoint maxImageSize = QPoint(440, 440);
@@ -45,10 +31,31 @@ public:
     // the current canvas position to for mouse translation
     QPoint canvasPosition;
 
+    // for canvas brush preview
+    QPoint lastMousePosition;
+    QColor lastPreviewColor;
+
+    // toolbar
+	bool drawing;
+	bool erasing;
+    bool mousePressed;
+
+    // helpers
+	void displayCurrentFrame();
+	void translateAndDraw(int x, int y, bool draw);
+    void showCursorPreview(int x, int y);
+
+public:
+	explicit SpriteEditor(QWidget *parent = nullptr);
+
+    // actual project info
+	int width;
+	int height;
+	QString name;
 public slots:
 	QImage generateOnionSkin(int frame);
 	void erasePixel(int x, int y);
-	void drawPixel(int x, int y);
+    void drawPixel(int x, int y, const QColor &color);
 	void setCurrentColor(const QColor &newColor);
 	void addFrame();
 	void deleteFrame();
