@@ -179,17 +179,17 @@ bool SpriteEditor::translateAndDraw(int x, int y, bool draw) {
     x = x / ratio;
     y = y / ratio;
 
-    // only draw when mouse is pressed, otherwise, show possible preview instead
+    // only draw while the mouse is pressed, otherwise show brush preview for not drawing and erasing
     if (!mousePressed) {
         showCursorPreview(x, y);
         return true;
-    }
-    lastMousePosition = QPoint(-1, -1);
-
-    if(draw)
-        drawPixel(x, y, currentColor);
-    else
+    } else if (!draw) {
         erasePixel(x, y);
+        showCursorPreview(x, y);
+    } else {
+        drawPixel(x, y, currentColor);
+        lastMousePosition = QPoint(-1, -1);
+    }
 
     return true;
 }
@@ -199,15 +199,15 @@ bool SpriteEditor::translateAndDraw(int x, int y, bool draw) {
 void SpriteEditor::onMouseMoved(int x, int y) {
     if(drawing)
         translateAndDraw(x, y, true);
-
     if(erasing)
         translateAndDraw(x, y, false);
 }
 
 void SpriteEditor::onMousePressed(int x, int y, bool pressed) {
-    if (pressed && (drawing || erasing))
+    if (pressed && (drawing || erasing)) {
+        mousePressed = true; // mouse is originally pressed, but was it in bounds of canvas?
         mousePressed = translateAndDraw(x, y, drawing || !erasing);
-    else
+    } else
         mousePressed = false;
 }
 
