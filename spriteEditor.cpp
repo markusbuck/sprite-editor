@@ -68,10 +68,38 @@ void SpriteEditor::setCurrentColor(const QColor &newColor) {
 
 void SpriteEditor::displayCurrentFrame(){
 
-    const QImage *curFrame = &frames.at(currentFrame);
+    QImage *frame = &frames[currentFrame];
+
+    QImage onionFrame = this->generateOnionSkin();
+    QImage mergedFrame = QImage(width, height, QImage::Format_ARGB32);
+    mergedFrame.fill(qRgba(0, 0, 0, 0));
+
+    if(this->isOnionSkinOn){
+        for(int y = 0; y < this->height; y++){
+            for(int x = 0; x < this->width; x++){
+                QRgb onionColor = onionFrame.pixel(x, y);
+                QRgb currentColor = frame->pixel(x, y);
+
+                if (qAlpha(onionColor) == 0 && qAlpha(currentColor) == 0) {
+                    continue;
+                } else if (qAlpha(onionColor) == 0) {
+                    mergedFrame.setPixel(x, y, currentColor);
+                } else if (qAlpha(currentColor) == 0) {
+                    mergedFrame.setPixel(x, y, onionColor);
+                } else {
+                    mergedFrame.setPixelColor(x, y, onionColor);
+                    mergedFrame.setPixelColor(x, y, currentColor);
+                }
+            }
+        }
+
+
+        this->onionSkin = &mergedFrame;
+        frame = &mergedFrame;
+    }
 
     // alpha channel
-    QImage alphaPattern = QImage(curFrame->size(), QImage::Format_ARGB32);
+    QImage alphaPattern = QImage(frame->size(), QImage::Format_ARGB32);
     int patternRatio = (int)qMax(ratio / 16, 4.0);
 
     for (int y = 0; y < alphaPattern.height(); y++) {
@@ -81,62 +109,16 @@ void SpriteEditor::displayCurrentFrame(){
         }
     }
 
-    for (int y = 0; y < curFrame->height(); ++y) {
-        for (int x = 0; x < curFrame->width(); ++x) {
-            QRgb pixel = curFrame->pixel(x, y);
+    for (int y = 0; y < frame->height(); ++y) {
+        for (int x = 0; x < frame->width(); ++x) {
+            QRgb pixel = frame->pixel(x, y);
             if (qAlpha(pixel) > 0)
                 alphaPattern.setPixel(x, y, pixel);
         }
     }
 
-    //
-
-    const QImage *frame = &alphaPattern;
-
-    if(this->isOnionSkinOn){
-
-        QImage onionFrame = this->generateOnionSkin();
-        QImage copyCurrentFrame = frame->copy();
-        QImage mergedFrame = QImage(width, height, QImage::Format_ARGB32);
-        mergedFrame.fill(qRgba(0, 0, 0, 0));
-
-        for(int y = 0; y < this->height; y++){
-            for(int x = 0; x < this->width; x++){
-
-                QColor onionColor  = onionFrame.pixelColor(x, y);
-
-                QColor currentFrameColor = copyCurrentFrame.pixelColor(x, y);
-
-                if(onionColor.alpha() == 0 && currentFrameColor.alpha() == 0){
-                    continue;
-                }
-
-                else if(onionColor.alpha() == 0) {
-
-                    mergedFrame.setPixelColor(x, y, QColor(currentFrameColor.red(), currentFrameColor.green(), currentFrameColor.blue(), currentFrameColor.alpha()));
-                }
-
-                else if (currentFrameColor.alpha() == 0) {
-                    mergedFrame.setPixelColor(x, y, QColor(onionColor.red(), onionColor.green(), onionColor.blue(), onionColor.alpha()));
-                }
-
-                else {
-
-                    mergedFrame.setPixelColor(x, y, QColor(onionColor.red(), onionColor.green(), onionColor.blue(), onionColor.alpha()));
-                    mergedFrame.setPixelColor(x, y, QColor(currentFrameColor.red(), currentFrameColor.green(), currentFrameColor.blue(), currentFrameColor.alpha()));
-                }
-            }
-        }
-
-
-        this->onionSkin = &mergedFrame;
-        QImage scaledFrame = this->onionSkin->scaled(width * ratio, height * ratio);
-
-        emit displayFrame(&scaledFrame);
-    } else {
-        QImage scaledFrame = frame->scaled(width * ratio, height * ratio);
-        emit displayFrame(&scaledFrame);
-    }
+    QImage scaledFrame = alphaPattern.scaled(width * ratio, height * ratio);
+    emit displayFrame(&scaledFrame);
 }
 
 void SpriteEditor::addFrame(){
