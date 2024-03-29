@@ -21,6 +21,9 @@ private:
     QPen pen;
 
     void displayCurrentFrame();
+    bool isOnionSkinOn = false;
+    QImage* onionSkin;
+    QImage generateOnionSkin();
 
 public:
     explicit SpriteEditor(QWidget *parent = nullptr);
@@ -35,7 +38,6 @@ public:
     int ratioY;
 
 public slots:
-    QImage generateOnionSkin(int frame);
     void erasePixel(int x, int y);
     void drawPixel(int x, int y);
     void setCurrentColor(int r, int g, int b, int a);
@@ -43,6 +45,7 @@ public slots:
     void deleteFrame();
     void onNewProject(int width, int height, QString name);
     void adjustFrame(int value);
+    void toggleOnionSkin(int state);
 
     // mouse
 

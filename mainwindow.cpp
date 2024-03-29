@@ -16,12 +16,14 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
     connect(ui->frameAdjustor, &QSpinBox::valueChanged, &editor, &SpriteEditor::adjustFrame);
     connect(&editor, &SpriteEditor::updateFrameBox, ui->frameAdjustor, &QSpinBox::setValue);
     connect(&editor, &SpriteEditor::updateFrameBox, this, &MainWindow::updateMaxFrames);
-    connect(ui->AddFrameButton, &QPushButton::clicked, &editor, &SpriteEditor::addFrame);
 
     // mouse
 
     connect(this, &MainWindow::mousePress, &editor, &SpriteEditor::onMousePressed);
     connect(this, &MainWindow::mouseMove, &editor, &SpriteEditor::onMouseMoved);
+
+    // onion skin
+    connect(ui->OnionSkin, &QCheckBox::stateChanged, &editor, &SpriteEditor::toggleOnionSkin);
 
     // canvas
 

@@ -137,6 +137,19 @@
      <number>1</number>
     </property>
    </widget>
+   <widget class="QCheckBox" name="OnionSkin">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>440</y>
+      <width>85</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>OnionSkin</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -144,7 +157,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>24</height>
+     <height>37</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_file">
