@@ -156,22 +156,6 @@ void SpriteEditor::onNewProject(int width, int height, QString name) {
     addFrame();
 }
 
-void SpriteEditor::onMouseMoved(int x, int y) {
-    if(drawing)
-        translateAndDraw(x, y, true);
-
-    if(erasing)
-        translateAndDraw(x, y, false);
-}
-
-void SpriteEditor::onMousePressed(int x, int y, bool pressed) {
-    mousePressed = pressed;
-    if(pressed && drawing)
-        translateAndDraw(x, y, true);
-    else if(pressed && erasing)
-        translateAndDraw(x, y, false);
-}
-
 void SpriteEditor::currentCanvasPosition(int x, int y) {
     canvasPosition = QPoint(x, y);
 }
@@ -185,12 +169,12 @@ void SpriteEditor::showCursorPreview(int x, int y) {
     drawPixel(x, y, previewColor);
 }
 
-void SpriteEditor::translateAndDraw(int x, int y, bool draw) {
+bool SpriteEditor::translateAndDraw(int x, int y, bool draw) {
     x -= canvasPosition.x();
     y -= canvasPosition.y();
 
     if (x < 0 || x >= width * ratio || y < 0 || y >= height * ratio)
-        return;
+        return false;
 
     x = x / ratio;
     y = y / ratio;
@@ -198,7 +182,7 @@ void SpriteEditor::translateAndDraw(int x, int y, bool draw) {
     // only draw when mouse is pressed, otherwise, show possible preview instead
     if (!mousePressed) {
         showCursorPreview(x, y);
-        return;
+        return true;
     }
     lastMousePosition = QPoint(-1, -1);
 
@@ -206,6 +190,25 @@ void SpriteEditor::translateAndDraw(int x, int y, bool draw) {
         drawPixel(x, y, currentColor);
     else
         erasePixel(x, y);
+
+    return true;
+}
+
+// mouse events
+
+void SpriteEditor::onMouseMoved(int x, int y) {
+    if(drawing)
+        translateAndDraw(x, y, true);
+
+    if(erasing)
+        translateAndDraw(x, y, false);
+}
+
+void SpriteEditor::onMousePressed(int x, int y, bool pressed) {
+    if (pressed && (drawing || erasing))
+        mousePressed = translateAndDraw(x, y, drawing || !erasing);
+    else
+        mousePressed = false;
 }
 
 // toolbar

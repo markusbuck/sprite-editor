@@ -42,7 +42,7 @@ private:
 
     // helpers
 	void displayCurrentFrame();
-	void translateAndDraw(int x, int y, bool draw);
+    bool translateAndDraw(int x, int y, bool draw); // true if mouse was in bounds
     void showCursorPreview(int x, int y);
 
     // onion skin
