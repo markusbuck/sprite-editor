@@ -170,6 +170,10 @@ void SpriteEditor::showCursorPreview(int x, int y) {
         drawPixel(lastMousePosition.x(), lastMousePosition.y(), lastPreviewColor);
 
     lastMousePosition = QPoint(x, y);
+
+    if (x < 0 || y < 0)
+        return;
+
     lastPreviewColor = frames[currentFrame].pixelColor(x, y);
     drawPixel(x, y, previewColor);
 }
@@ -178,8 +182,10 @@ bool SpriteEditor::translateAndDraw(int x, int y, bool draw) {
     x -= canvasPosition.x();
     y -= canvasPosition.y();
 
-    if (x < 0 || x >= width * ratio || y < 0 || y >= height * ratio)
+    if (x < 0 || x >= width * ratio || y < 0 || y >= height * ratio) {
+        showCursorPreview(-1, -1);
         return false;
+    }
 
     x = x / ratio;
     y = y / ratio;
@@ -190,6 +196,8 @@ bool SpriteEditor::translateAndDraw(int x, int y, bool draw) {
         return true;
     } else if (!draw) {
         erasePixel(x, y);
+        lastMousePosition = QPoint(-1, -1);
+        // showCursorPreview(x, y);
     } else {
         drawPixel(x, y, currentColor);
         lastMousePosition = QPoint(-1, -1);
