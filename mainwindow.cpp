@@ -22,8 +22,8 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
     connect(ui->ColorButton, &QPushButton::clicked, this, [this](){ colorDialog.show(); });
 
     //save/load
-    connect(ui->action_save,QAction::triggered,&editor,&SpriteEditor::toJson);
-    connect(&editor, &SpriteEditor::jsonObject,this,MainWindow::saveAs);
+    connect(ui->action_save, &QAction::triggered,&editor,&SpriteEditor::toJson);
+    connect(&editor, &SpriteEditor::jsonObject,this, &MainWindow::saveAs);
     // frames
 
     connect(&editor, &SpriteEditor::displayFrame, this, &MainWindow::onDisplayCurrentFrame);
