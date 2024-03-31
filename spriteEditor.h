@@ -71,7 +71,10 @@ public slots:
 	void onNewProject(int width, int height, QString name);
     void adjustFrame(int value);
     void toggleOnionSkin(int state);
+
+    // save/load
     void toJson();
+    void toQImage(QString filePath);
 
 	// mouse
 
@@ -92,6 +95,7 @@ signals:
     void updateCanvasSize(int x, int y);
     void deleteModelFrame(int frameIndex);
     void jsonObject(QJsonObject json);
+    void displayLoadedFrames(QVector<QImage> newFrames);
 
 };
 

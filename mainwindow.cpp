@@ -24,6 +24,10 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
     //save/load
     connect(ui->action_save, &QAction::triggered,&editor,&SpriteEditor::toJson);
     connect(&editor, &SpriteEditor::jsonObject,this, &MainWindow::saveAs);
+
+    connect(ui->action_load, &QAction::triggered, this, &MainWindow::onLoad);
+    connect(this, &MainWindow::loadFile, &editor, &SpriteEditor::toQImage);
+
     // frames
 
     connect(&editor, &SpriteEditor::displayFrame, this, &MainWindow::onDisplayCurrentFrame);
@@ -109,6 +113,12 @@ void MainWindow::saveAs(QJsonObject json){
             // Handle error appropriately
         }
     }
+}
+
+void MainWindow::onLoad(){
+    QString filepath = QFileDialog::getOpenFileName();
+
+    emit loadFile(filepath);
 }
 // mouse
 void MainWindow::mousePressEvent(QMouseEvent *event) {
