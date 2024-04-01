@@ -93,6 +93,9 @@ public slots:
     void toggleReverse();
     void toggleBoomerang();
     void toggleActualSize(int state);
+    // save/load
+    void toJson();
+    void toQImage(QString filePath);
 
 	// mouse
 
@@ -114,6 +117,7 @@ signals:
     void updateCanvasSize(int x, int y);
     void deleteModelFrame(int frameIndex);
     void jsonObject(QJsonObject json);
+    void displayLoadedFrames(QVector<QImage> newFrames);
 
 };
 

@@ -1,6 +1,8 @@
 #include "spriteEditor.h"
 #include "QDebug"
 #include <QPainter>
+#include <QFile>
+#include <QJsonDocument>
 
 SpriteEditor::SpriteEditor(QWidget *parent)
 {
@@ -337,6 +339,9 @@ void SpriteEditor::toJson(){
         }
     }
 
+    json["name"] = name;
+    json["height"] = height;
+    json["width"] = width;
     json["frames"] = imageFrames;
     emit jsonObject(json);
     // //Json object.
@@ -369,6 +374,32 @@ void SpriteEditor::toJson(){
     // //How to append elements to the array.
     // imageFrames.append(tempValue);
 
+}
+
+void SpriteEditor::toQImage(QString filePath){
+    QFile file(filePath);
+
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+
+    QString contents = file.readAll();
+    file.close();
+
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(contents.toUtf8());
+
+    onNewProject(jsonDoc.object().value("width").toInt(), jsonDoc.object().value("height").toInt(), jsonDoc.object().value("name").toString());
+    auto encodedArray = jsonDoc.object().value("frames").toArray();
+
+    frames.clear();
+    for(auto frame : encodedArray){
+        QImage newFrame;
+        auto const encoded = frame.toString().toLatin1();
+        newFrame.loadFromData(QByteArray::fromBase64(encoded));
+        frames.push_back(newFrame);
+    }
+
+    currentFrame = frames.length() - 1;
+    displayCurrentFrame();
+    emit updateFrameBox(currentFrame);
 }
 // mouse events
 

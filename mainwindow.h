@@ -31,11 +31,13 @@ public slots:
     void deleteViewFrame(int index);
     void saveAs(QJsonObject json);
     void onFrameRateSlide(int value);
+    void onLoad();
 
 signals:
     void mouseMove(int x, int y);
     void mousePress(int x, int y, bool pressed);
     void setCanvasPosition(int x, int y);
+    void loadFile(QString filepath);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
