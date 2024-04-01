@@ -317,33 +317,38 @@ bool SpriteEditor::translateAndDraw(int x, int y, bool draw) {
 void SpriteEditor::toJson(){
     QJsonObject json;
     QJsonArray imageFrames;
-    //Convert each of the images into a jsonObject.
-    for (const QImage &image : frames) {
-        QByteArray ba;
-        QBuffer buffer(&ba);
-        buffer.open(QIODevice::WriteOnly);
-        if (!image.isNull()) {
-            if (image.save(&buffer, "PNG")) {
-                QVariant variant(ba.toBase64());
-                QJsonValue tempValue;
-                tempValue = variant.toString();
-                imageFrames.append(tempValue);
-            } else {
-                qDebug() << "Failed to save image to buffer";
+    qDebug()<<"This was called before the image loop";
+    foreach(const QImage &image, frames) {
+        QJsonArray imageDataArray;
+        for (int i = 0; i < image.height(); ++i) {
+            QJsonArray rowArray;
+            for (int j = 0; j < image.width(); ++j) {
+                QColor tempColor = image.pixelColor(j, i);
+                QJsonArray pixelArray;
+                pixelArray.append(tempColor.red());
+                pixelArray.append(tempColor.green());
+                pixelArray.append(tempColor.blue());
+                pixelArray.append(tempColor.alpha());
+                rowArray.append(pixelArray);
             }
-        } else {
-            qDebug() << "Image is null";
+            imageDataArray.append(rowArray);
         }
+        imageFrames.append(imageDataArray);
     }
-    //Different json categories.
+    qDebug()<<"This was called(after the loop) ";
+    // Add other JSON fields
     json["name"] = name;
     json["height"] = height;
     json["width"] = width;
     json["frames"] = imageFrames;
+
     emit jsonObject(json);
+
 }
 
 void SpriteEditor::toQImage(QString filePath){
+    if(filePath.isNull())
+        return;
     QFile file(filePath);
 
     file.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -355,15 +360,31 @@ void SpriteEditor::toQImage(QString filePath){
 
     onNewProject(jsonDoc.object().value("width").toInt(), jsonDoc.object().value("height").toInt(), jsonDoc.object().value("name").toString());
     auto encodedArray = jsonDoc.object().value("frames").toArray();
-
     frames.clear();
-    for(auto frame : encodedArray){
-        QImage newFrame;
-        auto const encoded = frame.toString().toLatin1();
-        newFrame.loadFromData(QByteArray::fromBase64(encoded));
-        frames.push_back(newFrame);
-    }
+    // Iterate over each item in the imageFrames array.
+    for (const QJsonValue& imageDataValue : encodedArray) {
+        QJsonArray imageDataArray = imageDataValue.toArray();
 
+        // Create a QImage object with the dimensions of the imageDataArray.
+        QImage image(imageDataArray[0].toArray().size(), imageDataArray.size(), QImage::Format_ARGB32);
+
+        // Iterate over each row of the imageDataArray.
+        for (int y = 0; y < imageDataArray.size(); ++y) {
+            QJsonArray rowArray = imageDataArray[y].toArray();
+
+            // Iterate over each pixel in the rowArray.
+            for (int x = 0; x < rowArray.size(); ++x) {
+                QJsonArray pixelArray = rowArray[x].toArray();
+
+                // Extract RGBA values from the pixelArray and set pixel color in QImage.
+                QColor color(pixelArray[0].toInt(), pixelArray[1].toInt(), pixelArray[2].toInt(), pixelArray[3].toInt());
+                image.setPixelColor(x, y, color);
+            }
+        }
+
+        // Add constructed QImage to the frames vector.
+        frames.append(image);
+    }
     currentFrame = frames.length() - 1;
     displayCurrentFrame();
     emit updateFrameBox(currentFrame);
