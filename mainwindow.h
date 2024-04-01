@@ -24,11 +24,13 @@ public:
     ~MainWindow();
 
 public slots:
+    void onDisplayPreview(QImage* frame);
     void onDisplayCurrentFrame(QImage* frame);
     void updateMaxFrames(int max);
     void onUpdateCanvasSize(int x, int y);
     void deleteViewFrame(int index);
     void saveAs(QJsonObject json);
+    void onFrameRateSlide(int value);
 
 signals:
     void mouseMove(int x, int y);

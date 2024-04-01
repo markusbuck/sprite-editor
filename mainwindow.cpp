@@ -22,11 +22,23 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
     connect(ui->ColorButton, &QPushButton::clicked, this, [this](){ colorDialog.show(); });
 
     //save/load
-    connect(ui->action_save, &QAction::triggered,&editor,&SpriteEditor::toJson);
-    connect(&editor, &SpriteEditor::jsonObject,this, &MainWindow::saveAs);
-    // frames
+    connect(ui->action_save, &QAction::triggered, &editor, &SpriteEditor::toJson);
+    connect(&editor, &SpriteEditor::jsonObject, this, &MainWindow::saveAs);
 
+    // frames
     connect(&editor, &SpriteEditor::displayFrame, this, &MainWindow::onDisplayCurrentFrame);
+
+    // preview
+    connect(&editor, &SpriteEditor::displayPreview, this, &MainWindow::onDisplayPreview);
+    connect(ui->frameRate, &QSlider::valueChanged, &editor, &SpriteEditor::adjustFPS);
+    connect(ui->frameRate, &QSlider::valueChanged, this, &MainWindow::onFrameRateSlide);
+
+    // playback
+    connect(ui->boomerangButton, &QPushButton::clicked, &editor, &SpriteEditor::toggleBoomerang);
+    connect(ui->reverseButton, &QPushButton::clicked, &editor, &SpriteEditor::toggleReverse);
+    connect(ui->forwardButton, &QPushButton::clicked, &editor, &SpriteEditor::toggleForward);
+    connect(ui->actualSizeBox, &QCheckBox::stateChanged, &editor, &SpriteEditor::toggleActualSize);
+
     // add
     connect(ui->AddFrameButton, &QPushButton::clicked, &editor, &SpriteEditor::addFrame);
     connect(ui->frameAdjustor, &QSpinBox::valueChanged, &editor, &SpriteEditor::adjustFrame);
@@ -42,7 +54,6 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
     connect (ui->EraseButton, &QPushButton::clicked, &editor, &SpriteEditor::onErasePressed);
 
     // mouse
-
     connect(this, &MainWindow::mousePress, &editor, &SpriteEditor::onMousePressed);
     connect(this, &MainWindow::mouseMove, &editor, &SpriteEditor::onMouseMoved);
 
@@ -50,7 +61,6 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
     connect(ui->OnionSkin, &QCheckBox::stateChanged, &editor, &SpriteEditor::toggleOnionSkin);
 
     // canvas
-
     connect(this, &MainWindow::setCanvasPosition, &editor, &SpriteEditor::currentCanvasPosition);
     connect(&editor, &SpriteEditor::updateCanvasSize, this, &MainWindow::onUpdateCanvasSize);
 
@@ -59,19 +69,23 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
 
 }
 
-void MainWindow::onDisplayCurrentFrame(QImage *frame)
-{
-
+void MainWindow::onDisplayCurrentFrame(QImage *frame){
     ui->MainEditorCanvas->setPixmap(QPixmap::fromImage(*frame));
 }
 
-void MainWindow::updateMaxFrames(int max)
-{
+void MainWindow::onDisplayPreview(QImage *frame){
+    ui->Preview->setPixmap(QPixmap::fromImage(*frame));
+}
+
+void MainWindow::onFrameRateSlide(int value){
+    ui->frameRateLabel->setNum(value);
+}
+
+void MainWindow::updateMaxFrames(int max){
     ui->frameAdjustor->setMaximum(max);
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow(){
     delete ui;
 }
 
@@ -88,9 +102,9 @@ void MainWindow::saveAs(QJsonObject json){
     // QJsonDocument jsonDocument;
     // jsonDocument.setObject(json);
     // file.write(jsonDocument.toJson());
-    if (!filePath.isEmpty()) {
+    if (!filePath.isEmpty()){
         QFile file(filePath);
-        if (file.open(QIODevice::WriteOnly)) {
+        if (file.open(QIODevice::WriteOnly)){
             QJsonDocument jsonDocument;
             jsonDocument.setObject(json);
             QByteArray jsonData = jsonDocument.toJson();
@@ -111,21 +125,21 @@ void MainWindow::saveAs(QJsonObject json){
     }
 }
 // mouse
-void MainWindow::mousePressEvent(QMouseEvent *event) {
+void MainWindow::mousePressEvent(QMouseEvent *event){
     if (event->button() == Qt::LeftButton)
         emit mousePress((int)event->position().x(), (int)event->position().y(), true);
 }
 
-void MainWindow::mouseMoveEvent(QMouseEvent *event) {
+void MainWindow::mouseMoveEvent(QMouseEvent *event){
     emit mouseMove((int)event->position().x(), (int)event->position().y());
 }
 
-void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
+void MainWindow::mouseReleaseEvent(QMouseEvent *event){
     if (event->button() == Qt::LeftButton)
         emit mousePress((int)event->position().x(), (int)event->position().y(), false);
 }
 
-void MainWindow::onUpdateCanvasSize(int x, int y) {
+void MainWindow::onUpdateCanvasSize(int x, int y){
     auto canvasPostion = ui->MainEditorCanvas->pos();
     ui->MainEditorCanvas->setGeometry(canvasPostion.x(), canvasPostion.y(), x, y);
 }
