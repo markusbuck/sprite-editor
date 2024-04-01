@@ -15,8 +15,7 @@
 #include <QBuffer>
 #include <QTimer>
 
-class SpriteEditor : public QWidget
-{
+class SpriteEditor : public QWidget{
 
 	Q_OBJECT
 
