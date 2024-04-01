@@ -20,32 +20,6 @@
    <property name="mouseTracking">
     <bool>true</bool>
    </property>
-   <widget class="QToolButton" name="DrawButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>40</y>
-      <width>91</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Pen</string>
-    </property>
-   </widget>
-   <widget class="QToolButton" name="EraseButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>80</y>
-      <width>91</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Erase</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="MainEditorCanvas">
     <property name="geometry">
      <rect>
@@ -68,175 +42,290 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
     </property>
    </widget>
-   <widget class="QLabel" name="Preview">
+   <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>570</x>
+      <x>561</x>
       <y>0</y>
-      <width>161</width>
-      <height>141</height>
+      <width>181</width>
+      <height>441</height>
      </rect>
     </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
+    <layout class="QVBoxLayout" name="frameLayout">
+     <item>
+      <widget class="QCheckBox" name="actualSizeBox">
+       <property name="text">
+        <string>Actual Size</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="Preview">
+       <property name="minimumSize">
+        <size>
+         <width>164</width>
+         <height>164</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>164</width>
+         <height>164</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="playBackModes">
+       <property name="text">
+        <string>Playback Modes</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="playBackButton">
+       <item>
+        <widget class="QPushButton" name="reverseButton">
+         <property name="font">
+          <font>
+           <pointsize>7</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Reverse</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="boomerangButton">
+         <property name="font">
+          <font>
+           <pointsize>5</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Boomerang</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="forwardButton">
+         <property name="font">
+          <font>
+           <pointsize>7</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Forward</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="FPSLayout">
+       <item>
+        <widget class="QLabel" name="frameRateLabel">
+         <property name="text">
+          <string>1</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>FPS</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSlider" name="frameRate">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>24</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QLabel" name="frameAdjLabel">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Frame Adjustments</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="frameAdjLayout">
+       <item>
+        <widget class="QPushButton" name="AddFrameButton">
+         <property name="text">
+          <string>Add</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="DeleteFrameButton">
+         <property name="text">
+          <string>Delete</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QLabel" name="currentFrameLabel">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Current Frame</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="frameAdjustor">
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>1</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="OnionSkin">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>OnionSkin</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
-   <widget class="QSlider" name="horizontalSlider">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>150</y>
-      <width>160</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="AddFrameButton">
-    <property name="geometry">
-     <rect>
-      <x>580</x>
-      <y>200</y>
-      <width>61</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Add</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="DeleteFrameButton">
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>200</y>
-      <width>61</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Delete</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QWidget" name="verticalLayoutWidget_2">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
-      <width>91</width>
-      <height>31</height>
+      <y>0</y>
+      <width>93</width>
+      <height>431</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <family>Arial</family>
-      <pointsize>18</pointsize>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Toolbar</string>
-    </property>
-    <property name="scaledContents">
-     <bool>false</bool>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="frameAdjustor">
-    <property name="geometry">
-     <rect>
-      <x>580</x>
-      <y>290</y>
-      <width>121</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>1</number>
-    </property>
-    <property name="maximum">
-     <number>1</number>
-    </property>
-   </widget>
-   <widget class="QToolButton" name="ColorButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>410</y>
-      <width>91</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Color</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="OnionSkin">
-    <property name="geometry">
-     <rect>
-      <x>580</x>
-      <y>430</y>
-      <width>121</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Arial</family>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>OnionSkin</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>170</y>
-      <width>141</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Arial</family>
-      <pointsize>11</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Frame Adjustments</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>260</y>
-      <width>141</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Arial</family>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Current Frame</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
+    <layout class="QVBoxLayout" name="toolLayout">
+     <item>
+      <widget class="QLabel" name="toolLabel">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>18</pointsize>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Toolbar</string>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="DrawButton">
+       <property name="minimumSize">
+        <size>
+         <width>91</width>
+         <height>41</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Pen</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="EraseButton">
+       <property name="minimumSize">
+        <size>
+         <width>91</width>
+         <height>41</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Erase</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>234</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QToolButton" name="ColorButton">
+       <property name="minimumSize">
+        <size>
+         <width>91</width>
+         <height>41</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Color</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -245,7 +334,7 @@
      <x>0</x>
      <y>0</y>
      <width>744</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_file">

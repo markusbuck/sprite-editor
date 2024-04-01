@@ -9,16 +9,120 @@ SpriteEditor::SpriteEditor(QWidget *parent)
     drawing = true;
     erasing = false;
     mousePressed = false;
+    forward = true;
+    reverse = false;
+    boomerang = false;
+    boomerangDirection = true;
+    isScaledPreview = true;
     lastMousePosition = QPoint(-1, -1);
+
+    this->timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &SpriteEditor::framePreview);
+    this->timer->start(1000);
 }
 
-void SpriteEditor::toggleOnionSkin(int state) {
-    if(state == 0) {
+void SpriteEditor::framePreview(){
+    if(frames.length() > 0){
+        if(index >= frames.length()){
+            index = frames.length() - 1;
+        }
+        if(forward){
+            forwardPlayback();
+        }
+        else if(boomerang){
+            boomerangPlayback();
+        }
+        else if(reverse){
+            reversePlayback();
+        }
+        QImage preview = frames.at(index);
+        QImage previewFrame;
+        if(isScaledPreview) {
+            previewFrame = preview.scaled(width * previewRatio, height * previewRatio);
+        }
+        else{
+            previewFrame = preview;
+        }
+        emit displayPreview(&previewFrame);
+    }
+}
+
+void SpriteEditor::forwardPlayback(){
+    if(index == frames.length() - 1){
+        index = 0;
+    }
+    else if(index < frames.length() - 1){
+        index++;
+    }
+}
+
+void SpriteEditor::reversePlayback(){
+    if(index == 0){
+        index = frames.length() - 1;
+    }
+    else if(index > 0){
+        index--;
+    }
+}
+
+void SpriteEditor::boomerangPlayback(){
+    if(boomerangDirection){
+        if(index == frames.length() - 1){
+            boomerangDirection = false;
+        }
+        else if(index < frames.length() - 1){
+            index++;
+        }
+    }else{
+        if(index == 0){
+            boomerangDirection = true;
+        }
+        else if(index > 0){
+            index--;
+        }
+    }
+}
+
+void SpriteEditor::toggleBoomerang(){
+    boomerang = true;
+    forward = false;
+    reverse = false;
+}
+
+void SpriteEditor::toggleForward(){
+    boomerang = false;
+    forward = true;
+    reverse = false;
+    boomerangDirection = true;
+}
+
+void SpriteEditor::toggleReverse(){
+    boomerang = false;
+    forward = false;
+    reverse = true;
+    boomerangDirection = false;
+}
+
+void SpriteEditor::toggleActualSize(int state){
+    if(state == 0){
+        isScaledPreview = true;
+    }
+    else if(state == 2){
+        isScaledPreview = false;
+    }
+}
+
+void SpriteEditor::adjustFPS(int FPS){
+    int adjustedFPS = 1000 / FPS;
+    this->timer->setInterval(adjustedFPS);
+}
+
+void SpriteEditor::toggleOnionSkin(int state){
+    if(state == 0){
         this->isOnionSkinOn = false;
         displayCurrentFrame();
     }
-
-    else if(state == 2) {
+    else if(state == 2){
         this->isOnionSkinOn = true;
         displayCurrentFrame();
     }
@@ -95,7 +199,6 @@ void SpriteEditor::displayCurrentFrame(){
             }
         }
 
-
         this->onionSkin = &mergedFrame;
         frame = &mergedFrame;
     }
@@ -120,6 +223,8 @@ void SpriteEditor::displayCurrentFrame(){
     }
 
     QImage scaledFrame = alphaPattern.scaled(width * ratio, height * ratio);
+    // QImage scaledPreview = alphaPattern.scaled(width * previewRatio, height * previewRatio);
+    // emit displayPreview(&scaledPreview);
     emit displayFrame(&scaledFrame);
 }
 
@@ -158,6 +263,7 @@ void SpriteEditor::onNewProject(int width, int height, QString name) {
     setCurrentColor(qRgba(255, 0, 0, 255));
 
     ratio = qMin(maxImageSize.x() / width, maxImageSize.y() / height);
+    previewRatio = qMin(maxPreviewSize.x() / width, maxPreviewSize.y() / height);
     emit updateCanvasSize(width * ratio, height * ratio);
 
     addFrame();
