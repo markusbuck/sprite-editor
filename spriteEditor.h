@@ -88,7 +88,6 @@ public slots:
     void toggleOnionSkin(int state);
     void framePreview();
     void adjustFPS(int);
-    void toJson();
     void toggleForward();
     void toggleReverse();
     void toggleBoomerang();
