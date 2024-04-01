@@ -99,14 +99,11 @@ void MainWindow::deleteViewFrame(int value){
 }
 //saveas
 void MainWindow::saveAs(QJsonObject json){
-    //Maybe have text box pop up for file name.
-    QString filePath = QFileDialog::getSaveFileName(nullptr,"yuh","",".json");
-    // QFile file(filePath);
-    // QJsonDocument jsonDocument;
-    // jsonDocument.setObject(json);
-    // file.write(jsonDocument.toJson());
+    //Open file saving menu and obtain file path.
+    QString filePath = QFileDialog::getSaveFileName(nullptr,"","",".json");
     if (!filePath.isEmpty()){
         QFile file(filePath);
+        //Convert the json document into a byte format.
         if (file.open(QIODevice::WriteOnly)){
             QJsonDocument jsonDocument;
             jsonDocument.setObject(json);
@@ -115,7 +112,6 @@ void MainWindow::saveAs(QJsonObject json){
 
             if (bytesWritten == -1) {
                 qDebug() << "Error writing to file:" << file.errorString();
-                // Handle error appropriately
             } else {
                 qDebug() << "File saved successfully";
             }
@@ -123,7 +119,6 @@ void MainWindow::saveAs(QJsonObject json){
             file.close();
         } else {
             qDebug() << "Failed to open file for writing:" << file.errorString();
-            // Handle error appropriately
         }
     }
 }
