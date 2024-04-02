@@ -2,6 +2,15 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 
+/*!
+ * \brief MainWindow::MainWindow
+ * \param editor
+ * \param parent
+ *
+ * Implements the methods defined in mainwindow.h
+ *
+ * Reviewed by Zak Holt and Kevin Soto
+ */
 MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
