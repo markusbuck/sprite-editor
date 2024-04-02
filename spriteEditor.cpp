@@ -317,7 +317,7 @@ bool SpriteEditor::translateAndDraw(int x, int y, bool draw) {
 void SpriteEditor::toJson(){
     QJsonObject json;
     QJsonArray imageFrames;
-    qDebug()<<"This was called before the image loop";
+
     foreach(const QImage &image, frames) {
         QJsonArray imageDataArray;
         for (int i = 0; i < image.height(); ++i) {
@@ -335,7 +335,7 @@ void SpriteEditor::toJson(){
         }
         imageFrames.append(imageDataArray);
     }
-    qDebug()<<"This was called(after the loop) ";
+
     // Add other JSON fields
     json["name"] = name;
     json["height"] = height;
