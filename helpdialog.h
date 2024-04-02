@@ -9,14 +9,6 @@
  *
  * Header file for the help dialog that is a part of the file menu.
  */
-
-/*!
- * Authors: Kevin Soto, Zak Holt, Walker Hall, Brenden Suess, and Markus Buckwalter
- * CS 3505 Assignment 8: Sprite Editor Implementation
- * Date: 4/1/24
- *
- * This file contains the components that control the help dialog window of the sprite editor.
- */
 namespace Ui {
 class HelpDialog;
 }
