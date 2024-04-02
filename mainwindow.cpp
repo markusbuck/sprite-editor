@@ -47,12 +47,12 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
     connect(ui->frameAdjustor, &QSpinBox::valueChanged, &editor, &SpriteEditor::adjustFrame);
     connect(&editor, &SpriteEditor::updateFrameBox, this, &MainWindow::updateMaxFrames);
     connect(&editor, &SpriteEditor::updateFrameBox, ui->frameAdjustor, &QSpinBox::setValue);
+
     // delete
     connect(ui->DeleteFrameButton, &QPushButton::clicked, &editor, &SpriteEditor::deleteFrame);
     connect(&editor, &SpriteEditor::deleteModelFrame, this, &MainWindow::deleteViewFrame);
 
     // toolbar
-
     connect (ui->DrawButton, &QPushButton::clicked, &editor, &SpriteEditor::onDrawPressed);
     connect (ui->EraseButton, &QPushButton::clicked, &editor, &SpriteEditor::onErasePressed);
 
@@ -97,7 +97,8 @@ void MainWindow::deleteViewFrame(int value){
     ui->frameAdjustor->setMaximum(ui->frameAdjustor->maximum()-1);
     ui->frameAdjustor->setValue(value);
 }
-//saveas
+
+//save as
 void MainWindow::saveAs(QJsonObject json){
     //Open file saving menu and obtain file path.
     QString filePath = QFileDialog::getSaveFileName(nullptr,"Sprite Sheet Project", "", "SSP Files (*.ssp)");
@@ -134,6 +135,7 @@ void MainWindow::onLoad(){
 
     emit loadFile(filepath);
 }
+
 // mouse
 void MainWindow::mousePressEvent(QMouseEvent *event){
     if (event->button() == Qt::LeftButton)

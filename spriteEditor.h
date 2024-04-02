@@ -9,8 +9,8 @@
 #include <QJsonObject>
 #include <QWidget>
 #include <QMouseEvent>
-#include<QJsonObject>
-#include<QJsonArray>
+#include <QJsonObject>
+#include <QJsonArray>
 #include <QVariant>
 #include <QBuffer>
 #include <QTimer>

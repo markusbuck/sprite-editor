@@ -1,5 +1,4 @@
 #include "spriteEditor.h"
-#include "QDebug"
 #include <QPainter>
 #include <QFile>
 #include <QJsonDocument>
@@ -223,8 +222,6 @@ void SpriteEditor::displayCurrentFrame(){
     }
 
     QImage scaledFrame = alphaPattern.scaled(width * ratio, height * ratio);
-    // QImage scaledPreview = alphaPattern.scaled(width * previewRatio, height * previewRatio);
-    // emit displayPreview(&scaledPreview);
     emit displayFrame(&scaledFrame);
 }
 
@@ -313,6 +310,7 @@ bool SpriteEditor::translateAndDraw(int x, int y, bool draw) {
 
     return true;
 }
+
 //JsonConversion
 void SpriteEditor::toJson(){
     QJsonObject json;
@@ -349,6 +347,7 @@ void SpriteEditor::toJson(){
 void SpriteEditor::toQImage(QString filePath){
     if(filePath.isNull())
         return;
+
     QFile file(filePath);
 
     file.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -381,14 +380,15 @@ void SpriteEditor::toQImage(QString filePath){
                 image.setPixelColor(x, y, color);
             }
         }
-
         // Add constructed QImage to the frames vector.
         frames.append(image);
     }
+
     currentFrame = frames.length() - 1;
     displayCurrentFrame();
     emit updateFrameBox(currentFrame);
 }
+
 // mouse events
 
 void SpriteEditor::onMouseMoved(int x, int y) {
