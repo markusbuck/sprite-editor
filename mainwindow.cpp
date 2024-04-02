@@ -100,8 +100,14 @@ void MainWindow::deleteViewFrame(int value){
 //saveas
 void MainWindow::saveAs(QJsonObject json){
     //Open file saving menu and obtain file path.
-    QString filePath = QFileDialog::getSaveFileName(nullptr,"","",".json");
+    QString filePath = QFileDialog::getSaveFileName(nullptr,"Sprite Sheet Project", "", "SSP Files (*.ssp)");
     if (!filePath.isEmpty()){
+
+        // Ensure the file has the .ssp extension
+        if(!filePath.endsWith(".ssp")) {
+            filePath += ".ssp";
+        }
+
         QFile file(filePath);
         //Convert the json document into a byte format.
         if (file.open(QIODevice::WriteOnly)){
