@@ -22,7 +22,6 @@ HEADERS += \
     startdialog.h
 
 FORMS += \
-    dialog.ui \
     helpdialog.ui \
     mainwindow.ui \
     startdialog.ui
