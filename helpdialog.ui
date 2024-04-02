@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>598</width>
-    <height>300</height>
+    <width>591</width>
+    <height>463</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>270</y>
+     <y>430</y>
      <width>581</width>
      <height>32</height>
     </rect>
@@ -38,17 +38,25 @@
      <x>0</x>
      <y>0</y>
      <width>601</width>
-     <height>271</height>
+     <height>431</height>
     </rect>
    </property>
    <property name="sizePolicy">
-    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
      <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
+     <verstretch>100</verstretch>
     </sizepolicy>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
    </property>
    <property name="verticalScrollBarPolicy">
     <enum>Qt::ScrollBarAlwaysOn</enum>
+   </property>
+   <property name="sizeAdjustPolicy">
+    <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
    </property>
    <property name="widgetResizable">
     <bool>true</bool>
@@ -59,8 +67,14 @@
       <x>0</x>
       <y>0</y>
       <width>585</width>
-      <height>269</height>
+      <height>429</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
     <widget class="QLabel" name="label">
      <property name="geometry">
@@ -68,7 +82,7 @@
        <x>20</x>
        <y>20</y>
        <width>541</width>
-       <height>441</height>
+       <height>1000</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -80,12 +94,11 @@
      <property name="font">
       <font>
        <family>Arial</family>
-       <pointsize>11</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>&lt;h1&gt;Sprite Editor Help&lt;/h1&gt;
-&lt;h2&gt;Creating a Project&lt;/h2&gt;
+      <string>&lt;h4&gt;Creating a Project&lt;/h4&gt;
 To create a new project: 
 &lt;ol&gt;
 &lt;li&gt;
@@ -99,7 +112,7 @@ Afterwards, press the &lt;b&gt;Ok&lt;/b&gt; button to initialize your new projec
 &lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h2&gt;Drawing an Erasing&lt;/h2&gt;
+&lt;h4&gt;Drawing, Erasing, and Changing Color&lt;/h4&gt;
 &lt;ol&gt;
 &lt;li&gt;
 Under the toolbar, select one of the two tools.
@@ -110,17 +123,36 @@ The pen allows you to draw onto the canvas.
 &lt;li&gt;
 The eraser allows you to erase pixels.
 &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2&gt;Changing Color&lt;/h2&gt;
-&lt;ol&gt;
 &lt;li&gt;
-Slightly further below the toolbar, you can select the color changer.
-&lt;/li&gt;
-&lt;li&gt;
+The color allows you to change the pen's color.
 After you've selected the color, you can press &lt;b&gt;Ok&lt;/b&gt; to confirm the change.
 &lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4&gt;Animating and Preview&lt;/h4&gt;
+On the right hand side is your frame preview.
+&lt;ol&gt;
+&lt;li&gt;
+To add or remove a frame, press the corresponding button under &lt;b&gt;Frame Adjustments&lt;/b&gt;
+&lt;/li&gt;
+&lt;li&gt;
+Move the &lt;b&gt;FPS&lt;/b&gt; slider to adjust the speed.
+&lt;/li&gt;
+&lt;li&gt;
+There are three different modes, &lt;b&gt;Forward&lt;/b&gt; plays the animation sequentially, &lt;b&gt;Boomerang&lt;/b&gt; plays it forwards and reverse, &lt;b&gt;Reverse&lt;/b&gt; plays it in reverse.
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4&gt;Saving and Loading&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;
+Press &lt;b&gt;file&lt;/b&gt;-&gt;&lt;b&gt;save&lt;/b&gt; to save a file with the &lt;b&gt;.ssp&lt;/b&gt; extension.
+&lt;/li&gt;
+&lt;li&gt;
+Press &lt;b&gt;file&lt;/b&gt;-&gt;&lt;b&gt;load&lt;/b&gt; to load a file with the &lt;b&gt;.ssp&lt;/b&gt; extension.
+&lt;/li&gt;
 &lt;/ol&gt;</string>
+     </property>
+     <property name="scaledContents">
+      <bool>false</bool>
      </property>
      <property name="alignment">
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
