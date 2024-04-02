@@ -10,6 +10,8 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
     startdialog.setModal(true);
     startdialog.show();
 
+    helpDialog.setModal(true);
+
     colorDialog.setModal(true);
 
     // new project
@@ -20,6 +22,9 @@ MainWindow::MainWindow(SpriteEditor &editor, QWidget *parent)
         editor.setCurrentColor(newColor);
     });
     connect(ui->ColorButton, &QPushButton::clicked, this, [this](){ colorDialog.show(); });
+
+    // help
+    connect(ui->action_help, &QAction::triggered, this, [this](bool) { helpDialog.show(); });
 
     //save/load
     connect(ui->action_save, &QAction::triggered,&editor,&SpriteEditor::toJson);

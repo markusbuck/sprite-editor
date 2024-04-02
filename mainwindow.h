@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "startdialog.h"
+#include "helpdialog.h"
 #include "spriteEditor.h"
 #include "QColorDialog"
 #include <QSaveFile>
@@ -33,7 +34,7 @@ private:
     QImage background;
     StartDialog startdialog;
     QColorDialog colorDialog;
-
+    HelpDialog helpDialog;
 public:
 
     /*!

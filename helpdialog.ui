@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>HelpDialog</class>
+ <widget class="QDialog" name="HelpDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>598</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Help</string>
+  </property>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>270</y>
+     <width>581</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Ok</set>
+   </property>
+   <property name="centerButtons">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QScrollArea" name="scrollArea">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>601</width>
+     <height>271</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>30</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOn</enum>
+   </property>
+   <property name="widgetResizable">
+    <bool>true</bool>
+   </property>
+   <widget class="QWidget" name="scrollAreaWidgetContents">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>585</width>
+      <height>269</height>
+     </rect>
+    </property>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>541</width>
+       <height>441</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>&lt;h1&gt;Sprite Editor Help&lt;/h1&gt;
+&lt;h2&gt;Creating a Project&lt;/h2&gt;
+To create a new project: 
+&lt;ol&gt;
+&lt;li&gt;
+select &lt;b&gt;file&lt;/b&gt; in the top left, then press the &lt;b&gt;new&lt;/b&gt; action. 
+&lt;/li&gt;
+&lt;li&gt;
+Enter your desired project name, width, and height.
+&lt;/li&gt;
+&lt;li&gt;
+Afterwards, press the &lt;b&gt;Ok&lt;/b&gt; button to initialize your new project. If you wish to cancel, press the &lt;b&gt;Cancel&lt;/b&gt; button.
+&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;Drawing an Erasing&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+Under the toolbar, select one of the two tools.
+&lt;/li&gt;
+&lt;li&gt;
+The pen allows you to draw onto the canvas.
+&lt;/li&gt;
+&lt;li&gt;
+The eraser allows you to erase pixels.
+&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;Changing Color&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+Slightly further below the toolbar, you can select the color changer.
+&lt;/li&gt;
+&lt;li&gt;
+After you've selected the color, you can press &lt;b&gt;Ok&lt;/b&gt; to confirm the change.
+&lt;/li&gt;
+&lt;/ol&gt;</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
