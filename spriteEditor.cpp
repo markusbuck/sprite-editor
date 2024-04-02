@@ -150,9 +150,8 @@ QImage SpriteEditor::generateOnionSkin(){
 
             QColor color  = previousFrame.pixelColor(x, y);
 
-            if(color.alpha() == 0){
+            if(color.alpha() == 0)
                 continue;
-            }
 
             QColor onionCol(color.red(), color.blue(), color.blue(), 125);
             copyPreviousFrame.setPixelColor(x, y, onionCol);
@@ -187,6 +186,7 @@ void SpriteEditor::displayCurrentFrame(){
     QImage mergedFrame = QImage(width, height, QImage::Format_ARGB32);
     mergedFrame.fill(qRgba(0, 0, 0, 0));
 
+    // onion skin
     if(this->isOnionSkinOn){
         for(int y = 0; y < this->height; y++){
             for(int x = 0; x < this->width; x++){
@@ -210,7 +210,7 @@ void SpriteEditor::displayCurrentFrame(){
         frame = &mergedFrame;
     }
 
-    // alpha channel
+    // alpha channel for transparent background pattern
     QImage alphaPattern = QImage(frame->size(), QImage::Format_ARGB32);
     int patternRatio = (int)qMax(ratio / 16, 4.0);
 
@@ -229,6 +229,7 @@ void SpriteEditor::displayCurrentFrame(){
         }
     }
 
+    // send to the view
     QImage scaledFrame = alphaPattern.scaled(width * ratio, height * ratio);
     emit displayFrame(&scaledFrame);
 }
@@ -239,6 +240,8 @@ void SpriteEditor::addFrame(){
     frames.push_back(newFrame);
     currentFrame = frames.length() - 1;
     displayCurrentFrame();
+
+    // view the current new frame
     emit updateFrameBox(currentFrame);
 }
 
@@ -261,16 +264,19 @@ void SpriteEditor::adjustFrame(int val){
 }
 
 void SpriteEditor::onNewProject(int width, int height, QString name) {
+    // new project values
     this->height = height;
     this->width = width;
     this->name = name;
     frames = QVector<QImage>();
     setCurrentColor(qRgba(255, 0, 0, 255));
 
+    // scale the new frame to fit correctly so it's not so tiny
     ratio = qMin(maxImageSize.x() / width, maxImageSize.y() / height);
     previewRatio = qMin(maxPreviewSize.x() / width, maxPreviewSize.y() / height);
     emit updateCanvasSize(width * ratio, height * ratio);
 
+    // add the default frame
     addFrame();
 }
 
@@ -284,6 +290,7 @@ void SpriteEditor::showCursorPreview(int x, int y) {
 
     lastMousePosition = QPoint(x, y);
 
+    // if it's out of bounds, don't show
     if (x < 0 || y < 0)
         return;
 
@@ -292,9 +299,11 @@ void SpriteEditor::showCursorPreview(int x, int y) {
 }
 
 bool SpriteEditor::translateAndDraw(int x, int y, bool draw) {
+    // translate new mouse coordinates
     x -= canvasPosition.x();
     y -= canvasPosition.y();
 
+    // hide preview if not in bounds
     if (x < 0 || x >= width * ratio || y < 0 || y >= height * ratio) {
         showCursorPreview(-1, -1);
         return false;
