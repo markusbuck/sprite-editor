@@ -3,6 +3,14 @@
 #include <QFile>
 #include <QJsonDocument>
 
+/*!
+ * \brief SpriteEditor::SpriteEditor
+ * \param parent
+ *
+ * Implements the methods defined in spriteEditor.h
+ *
+ * Reviewed by Brenden Suess and Walker Hall
+ */
 SpriteEditor::SpriteEditor(QWidget *parent)
 {
     drawing = true;

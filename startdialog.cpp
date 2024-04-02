@@ -1,6 +1,14 @@
 #include "startdialog.h"
 #include "ui_startdialog.h"
 
+/*!
+ * \brief StartDialog::StartDialog
+ * \param parent
+ *
+ * Implements the methods defined in startdialog.h
+ *
+ * Reviewed by Zak Holt
+ */
 StartDialog::StartDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::StartDialog){
